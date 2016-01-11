@@ -1,0 +1,44 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<form class="form-signin" role="form" method="post" action="{{ action }}">
+  {{ form.csrf_token }}
+    <br>
+    <h4>Address</h4>
+    {{ form.street(placeholder="street") }}
+    <span class="error">
+      {% if form.street.errors %}
+        {% for error in form.street.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+    {{ form.city(placeholder="city") }}
+    <span class="error">
+      {% if form.city.errors %}
+        {% for error in form.city.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+    {{ form.state(placeholder="state abbreviation") }}
+    <span class="error">
+      {% if form.state.errors %}
+        {% for error in form.state.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+    {{ form.zip(placeholder="zip") }}
+    <span class="error">
+      {% if form.zip.errors %}
+        {% for error in form.zip.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+  <button class="btn btn-sm btn-success" type="submit">Save</button>
+</form>
+
+{% endblock %}

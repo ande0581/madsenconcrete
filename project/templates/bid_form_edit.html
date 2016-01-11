@@ -1,0 +1,119 @@
+{% extends "_base.html" %}
+
+{% block content %}
+{{ customer.name.upper() }}<br>
+{{ address.street }}<br>
+{{ address.city }}, {{ address.state }} {{ address.zip }}
+<br>
+
+<form class="form-signin" role="form" method="post" action="{{ action }}">
+  {{ form.csrf_token }}
+
+  <h4>Description</h4>
+  {{ form.description(cols="100", rows="2") }}
+  <span class="error">
+      {% if form.description.errors %}
+        {% for error in form.description.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+<br>
+
+      Bid Status: {{ form.status() }}<br>
+    <span class="error">
+      {% if form.status.errors %}
+        {% for error in form.status.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+
+Scheduled Bid Date: {{ form.scheduled_bid_date(placeholder="MM/DD/YYYY") }}<br>
+    <span class="error">
+      {% if form.scheduled_bid_date.errors %}
+        {% for error in form.scheduled_bid_date.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+
+Tentative Start Date: {{ form.tentative_start(placeholder="MM/DD/YYYY") }}<br>
+    <span class="error">
+      {% if form.tentative_start.errors %}
+        {% for error in form.tentative_start.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+
+Actual Start Date: {{ form.actual_start(placeholder="MM/DD/YYYY") }}<br>
+    <span class="error">
+      {% if form.actual_start.errors %}
+        {% for error in form.actual_start.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+
+Completion Date: {{ form.completion_date(placeholder="MM/DD/YYYY") }}<br>
+    <span class="error">
+      {% if form.completion_date.errors %}
+        {% for error in form.completion_date.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+
+<br>
+<div class="entries">
+  <h4>Items (<a href="{{ url_for('item.item_add', bid_id=bid_id) }}">Add</a>)</h4>
+    <div class="datagrid">
+    <table>
+      <thead>
+        <tr>
+          <th width="50px"><strong>Description</strong></th>
+          <th width="50px"><strong>Edit</strong></th>
+          <th width="50px"><strong>Delete</strong></th>
+          <th width="75px"><strong>Quantity</strong></th>
+          <th width="30px"><strong>Cost</strong></th>
+          <th width="30px"><strong>Total</strong></th>
+        </tr>
+      </thead>
+
+  {% if sum_of_items[0] is not none: %}
+        {% for item in items %}
+            <tr>
+              <td width="75px">{{ item.description }}</td>
+              <td width="30px"><a href="{{ url_for('item.item_edit', item_edit_id=item.id) }}">Edit</a></td>
+              <td width="30px"><a href="{{ url_for('item.item_delete', item_delete_id=item.id) }}">Delete</a></td>
+              <td width="30px">{{ "{0:0.1f}".format(item.quantity) }}</td>
+              <td width="30px">{{ "{0:0.2f}".format(item.cost) }}</td>
+              <td width="30px">{{ "{0:0.2f}".format(item.total) }}</td>
+            </tr>
+        {% endfor %}
+
+       <thead>
+        <tr>
+          <th width="75px"><strong>Total</strong></th>
+          <th width="30px"><strong></strong></th>
+          <th width="30px"><strong></strong></th>
+          <th width="30px"><strong></strong></th>
+          <th width="30px"><strong></strong></th>
+          <th width="30px"><strong>{{ "${0:0.2f}".format(sum_of_items[0]) }}</strong></th>
+        </tr>
+      </thead>
+
+  {% endif %}
+
+    </table>
+  </div>
+</div>
+<br>
+
+
+
+  <button class="btn btn-sm btn-success" type="submit">Save</button>
+</form>
+
+{% endblock %}

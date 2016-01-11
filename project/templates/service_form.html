@@ -1,0 +1,36 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+The services are presented in alphabetical order so keep naming consistent so similar services gets grouped together.
+<br>
+The sorting is case sensitive so the first character in the 'service description' should be capital.
+<br>
+<br>
+
+<form class="form-signin" role="form" method="post" action="{{ action }}">
+  {{ form.csrf_token }}
+  {{ form.description(placeholder="service description") }}
+    <span class="error">
+      {% if form.description.errors %}
+        {% for error in form.description.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+
+    <br>
+    {{ form.cost(placeholder="cost per unit") }}
+    <span class="error">
+      {% if form.cost.errors %}
+        {% for error in form.cost.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+    <br>
+    <br>
+    <button class="btn btn-sm btn-success" type="submit">Save</button>
+  </form>
+
+{% endblock %}

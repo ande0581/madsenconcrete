@@ -1,0 +1,21 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<form class="form-signin" role="form" method="post" action="{{ action }}">
+  {{ form.csrf_token }}
+    <br>
+    <h4>Journal Entry</h4>
+    {{ form.body(cols="80", rows="5") }}
+    <span class="error">
+      {% if form.body.errors %}
+        {% for error in form.body.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+  <br>
+   <button class="btn btn-sm btn-success" type="submit">Save</button>
+</form>
+
+{% endblock %}

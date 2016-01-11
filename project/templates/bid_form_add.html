@@ -1,0 +1,35 @@
+{% extends "_base.html" %}
+
+{% block content %}
+{{ customer.name.upper() }}<br>
+{{ address.street }}<br>
+{{ address.city }}, {{ address.state }} {{ address.zip }}
+<br>
+
+<form class="form-signin" role="form" method="post" action="{{ action }}">
+  {{ form.csrf_token }}
+
+  <h4>Description</h4>
+  {{ form.description(cols="100", rows="2") }}
+  <span class="error">
+      {% if form.description.errors %}
+        {% for error in form.description.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+<br>
+
+Scheduled Bid Date: {{ form.scheduled_bid_date(placeholder="MM/DD/YYYY") }}<br>
+    <span class="error">
+      {% if form.scheduled_bid_date.errors %}
+        {% for error in form.scheduled_bid_date.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+
+  <button class="btn btn-sm btn-success" type="submit">Save</button>
+</form>
+
+{% endblock %}

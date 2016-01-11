@@ -1,0 +1,98 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<h4>Customer Details:</h4><br>
+ {{ customer.name }}<br>
+ {{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}<br>
+ {{ customer.email }}<br>
+ Created: {{ customer.created_date }}<br>
+<a href="{{ url_for('customer.customer_edit', customer_edit_id=customer_id) }}">Edit</a>&nbsp;
+<a href="{{ url_for('customer.customer_delete', customer_del_id=customer_id) }}">Delete</a>
+<br>
+<br>
+
+<div class="entries">
+  <h4>Addresses (<a href="{{ url_for('address.address_add', customer_id=customer_id) }}">Add</a>)</h4>
+  <div class="datagrid">
+    <table>
+      <thead>
+        <tr>
+          <th width="200px"><strong>Street</strong></th>
+          <th width="75px"><strong>City</strong></th>
+          <th width="100px"><strong>State</strong></th>
+          <th width="100px"><strong>ZIP</strong></th>
+          <th width="50px"><strong>Bid</strong></th>
+          <th width="50px"><strong>Edit</strong></th>
+          <th width="50px"><strong>Delete</strong></th>
+        </tr>
+      </thead>
+      {% for address in addresses %}
+        <tr>
+          <td width="200px">
+            <a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+{{ address.state }}+{{ address.zip }}"
+               target="_blank">{{ address.street }}</a></td>
+          <td width="75px">{{ address.city }}</td>
+          <td width="100px">{{ address.state}}</td>
+          <td width="100px">{{ address.zip}}</td>
+          <td width="50px"><a href="{{ url_for('bid.bid_add', bid_customer_id=address.customer_id, bid_address_id=address.id) }} ">Schedule</a></td>
+          <td width="50px"><a href="{{ url_for('address.address_edit', address_edit_id=address.id) }}">Edit</a></td>
+          <td width="50px"><a href="{{ url_for('address.address_delete', address_del_id=address.id) }}">Delete</a></td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+<br>
+
+
+<div class="entries">
+  <h4>Bids</h4>
+  <div class="datagrid">
+    <table>
+      <thead>
+        <tr>
+          <th width="75px"><strong>Date</strong></th>
+          <th width="500px"><strong>Description</strong></th>
+          <th width="200"><strong>Status</strong></th>
+          <th width="50px"><strong>Delete</strong></th>
+        </tr>
+      </thead>
+      {% for bid in bids %}
+      <tr>
+          <td width="75px">{{ bid.timestamp.strftime('%x') }}</td>
+          <td width="500px"><a href="{{ url_for('bid.bid_edit', bid_edit_id=bid.id) }}">{{ bid.description }}</a></td>
+          <td width="200px">{{ bid.status }}</td>
+          <td width="50px"><a href="{{ url_for('bid.bid_delete', bid_delete_id=bid.id) }}">Delete</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+
+<br>
+<div class="entries">
+  <h4>Journal (<a href="{{ url_for('journal.journal_add', journal_add_id=customer_id) }}">Add</a>)</h4>
+  <div class="datagrid">
+    <table>
+      <thead>
+        <tr>
+          <th width="75px"><strong>Date</strong></th>
+          <th width="500px"><strong>Post</strong></th>
+          <th width="50px"><strong>Edit</strong></th>
+          <th width="50px"><strong>Delete</strong></th>
+        </tr>
+      </thead>
+      {% for entry in journal %}
+      <tr>
+          <td width="75px">{{ entry.timestamp.strftime('%c') }}</td>
+          <td width="500px">{{ entry.body }}</td>
+          <td width="50px"><a href="{{ url_for('journal.journal_edit', journal_edit_id=entry.id) }}">Edit</a></td>
+          <td width="50px"><a href="{{ url_for('journal.journal_delete', journal_del_id=entry.id) }}">Delete</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+{% endblock %}

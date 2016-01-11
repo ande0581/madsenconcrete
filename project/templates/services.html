@@ -1,0 +1,28 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<div class="entries">
+  <h4>Services (<a href="{{ url_for('service.service_add') }}">Add</a>)</h4>
+  <div class="datagrid">
+    <table>
+      <thead>
+        <tr>
+          <th width="200px"><strong>Description</strong></th>
+          <th width="50px"><strong>Cost</strong></th>
+          <th width="50px"><strong>Edit</strong></th>
+          <th width="50px"><strong>Delete</strong></th>
+        </tr>
+      </thead>
+      {% for service in services %}
+      <tr>
+          <td width="200px">{{ service.description }}</td>
+          <td width="50px">{{ "{0:0.2f}".format(service.cost) }}</td>
+          <td width="50px"><a href="{{ url_for('service.service_edit', service_edit_id=service.id) }}">Edit</a></td>
+          <td width="50px"><a href="{{ url_for('service.service_delete', service_delete_id=service.id) }}">Delete</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+{% endblock %}
