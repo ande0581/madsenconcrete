@@ -7,7 +7,8 @@
  {{ customer.email }}<br>
  Created: {{ customer.created_date }}<br>
 <a href="{{ url_for('customer.customer_edit', customer_edit_id=customer_id) }}">Edit</a>&nbsp;
-<a href="{{ url_for('customer.customer_delete', customer_del_id=customer_id) }}">Delete</a>
+<a href="{{ url_for('customer.customer_delete', customer_del_id=customer_id) }}"
+                              onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
 <br>
 <br>
 
@@ -29,14 +30,15 @@
       {% for address in addresses %}
         <tr>
           <td width="200px">
-            <a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+{{ address.state }}+{{ address.zip }}"
-               target="_blank">{{ address.street }}</a></td>
+            <a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+{{ address.state }}+{{ address.zip }}" target="_blank">{{ address.street }}</a></td>
           <td width="75px">{{ address.city }}</td>
           <td width="100px">{{ address.state}}</td>
           <td width="100px">{{ address.zip}}</td>
-          <td width="50px"><a href="{{ url_for('bid.bid_add', bid_customer_id=address.customer_id, bid_address_id=address.id) }} ">Schedule</a></td>
-          <td width="50px"><a id="myAnchor" href="{{ url_for('address.address_edit', address_edit_id=address.id) }}" onclick="anchorClicked()">Edit</a></td>
-          <td width="50px"><a href="{{ url_for('address.address_delete', address_del_id=address.id) }}">Delete</a></td>
+          <td width="50px"><a href="{{ url_for('bid.bid_add', bid_customer_id=address.customer_id,
+           bid_address_id=address.id) }} ">Schedule</a></td>
+          <td width="50px"><a id="myAnchor" href="{{ url_for('address.address_edit', address_edit_id=address.id) }}">Edit</a></td>
+          <td width="50px"><a href="{{ url_for('address.address_delete', address_del_id=address.id) }}"
+                              onclick="return confirm('Are you sure you want to delete this item?');">Delete</a></td>
         </tr>
       {% endfor %}
     </table>
@@ -62,7 +64,8 @@
           <td width="75px">{{ bid.timestamp.strftime('%x') }}</td>
           <td width="500px"><a href="{{ url_for('bid.bid_edit', bid_edit_id=bid.id) }}">{{ bid.description }}</a></td>
           <td width="200px">{{ bid.status }}</td>
-          <td width="50px"><a href="{{ url_for('bid.bid_delete', bid_delete_id=bid.id) }}">Delete</a></td>
+          <td width="50px"><a href="{{ url_for('bid.bid_delete', bid_delete_id=bid.id) }}"
+                              onclick="return confirm('Are you sure you want to delete this item?');">Delete</a></td>
       </tr>
       {% endfor %}
     </table>
@@ -88,7 +91,8 @@
           <td width="75px">{{ entry.timestamp.strftime('%c') }}</td>
           <td width="500px">{{ entry.body }}</td>
           <td width="50px"><a href="{{ url_for('journal.journal_edit', journal_edit_id=entry.id) }}">Edit</a></td>
-          <td width="50px"><a href="{{ url_for('journal.journal_delete', journal_del_id=entry.id) }}">Delete</a></td>
+          <td width="50px"><a href="{{ url_for('journal.journal_delete', journal_del_id=entry.id) }}"
+                              onclick="return confirm('Are you sure you want to delete this item?');">Delete</a></td>
       </tr>
       {% endfor %}
     </table>
