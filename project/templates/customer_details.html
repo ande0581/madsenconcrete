@@ -35,7 +35,7 @@
           <td width="100px">{{ address.state}}</td>
           <td width="100px">{{ address.zip}}</td>
           <td width="50px"><a href="{{ url_for('bid.bid_add', bid_customer_id=address.customer_id, bid_address_id=address.id) }} ">Schedule</a></td>
-          <td width="50px"><a href="{{ url_for('address.address_edit', address_edit_id=address.id) }}">Edit</a></td>
+          <td width="50px"><a id="myAnchor" href="{{ url_for('address.address_edit', address_edit_id=address.id) }}" onclick="anchorClicked()">Edit</a></td>
           <td width="50px"><a href="{{ url_for('address.address_delete', address_del_id=address.id) }}">Delete</a></td>
         </tr>
       {% endfor %}
