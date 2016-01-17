@@ -4,3 +4,8 @@ htmlcov/*
 env/*
 .coverage
 .idea/*
+requirements_prepdf_stuff.txt
+project/bid/data.csv
+project/bid/invoiceexample.pdf
+project/bid/report.py
+project/bid/report_example.py
