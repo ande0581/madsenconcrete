@@ -1,0 +1,63 @@
+<!-- HTML CSS values -->
+<!-- p class="red" translates to .red {} used for many -->
+<!-- p id="red" translates to #red {} used for just one -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Madsen Concrete Services Proposal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pdf.css') }}">
+</head>
+<body>
+{% block content %}
+<h4>Job Description</h4>
+<p>{{ bid.description }}</p>
+
+<div class="entries">
+    <div class="datagrid">
+    <table>
+      <thead>
+        <tr>
+          <th width="50px"><strong>Description</strong></th>
+          <th width="50px"></th>
+          <th width="50px"></th>
+          <th width="75px"><strong>Quantity</strong></th>
+          <th width="30px"><strong>Cost</strong></th>
+          <th width="30px"><strong>Total</strong></th>
+        </tr>
+      </thead>
+
+  {% if sum_of_items[0] is not none: %}
+        {% for item in items %}
+            <tr>
+              <td width="75px">{{ item.description }}</td>
+              <td width="30px"></td>
+              <td width="30px"></td>
+              <td width="30px">{{ "{0:0.1f}".format(item.quantity) }}</td>
+              <td width="30px">{{ "{0:0.2f}".format(item.cost) }}</td>
+              <td width="30px">{{ "{0:0.2f}".format(item.total) }}</td>
+            </tr>
+        {% endfor %}
+
+       <thead>
+        <tr>
+          <th width="75px"><strong>Total</strong></th>
+          <th width="30px"><strong></strong></th>
+          <th width="30px"><strong></strong></th>
+          <th width="30px"><strong></strong></th>
+          <th width="30px"><strong></strong></th>
+          <th width="30px"><strong>{{ "${0:0.2f}".format(sum_of_items[0]) }}</strong></th>
+        </tr>
+      </thead>
+
+  {% endif %}
+
+    </table>
+  </div>
+</div>
+<p style="text-align: center">Thank You For Your Business</p>
+
+{% endblock %}
+</body>
+</html>
