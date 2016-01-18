@@ -2,16 +2,40 @@
     border: 1px dashed blue;
 }
 
+#title {
+    font-family: 'Georgia', serif;
+    font-size: 1.5em;
+    margin-top: 0;
+    text-align: center;
+}
+
+#logo {
+    width: 200px;
+    height: 67.25px;
+}
+
+#company_address {
+    font-size: .7em;
+}
+
+#customer {
+    float: left;
+    font-size: .8em;
+}
+
+#description {
+    clear: both;
+}
+
+/*
 body {
   padding: 60px 0;
   background: #ffffff;
 }
+*/
 
-a, h1, h2 {
-  color: #377BA8;
-}
 
-h1, h2 {
+h1, h2, h4 {
   font-family: 'Georgia', serif;
   margin: 0;
 }
@@ -23,6 +47,11 @@ h1 {
 h2 {
   font-size: 1.5em;
 }
+
+h4 {
+    font-size: 1.2em;
+}
+
 
 .entries {
   list-style: none;

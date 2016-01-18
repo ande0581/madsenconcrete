@@ -11,7 +11,40 @@
 </head>
 <body>
 {% block content %}
-<h4>Job Description</h4>
+<table id="header" style="width: 100%">
+    <tr>
+        <td style="vertical-align:top; width: 33.3333%">
+            <img id="logo" src="{{ url_for('static', filename='img/logo.gif') }}">
+        </td>
+
+        <td style="vertical-align:top; width: 33.3333%; text-align: center">
+            <h2>Proposal</h2><br>
+            <div id="company_address">
+                179 Marvy St<br>
+                Lino Lakes, MN 55014<br>
+                612-508-2484
+                concrete@madsenservices.com
+            </div>
+        </td>
+
+        <td style="vertical-align:top; width: 33.3333%; text-align: right">
+            This is my right header and its really reallly really long
+        </td>
+
+    </tr>
+</table>
+
+
+<div>
+    <p id="customer">
+        Jeff Anderson<br>
+        555 1234 ST NE<br>
+        Mytown, USA 55555<br>
+        763-555-1000<br>
+        jeffanderson@domain.com
+    </p>
+</div>
+<h4 id="description">Job Description</h4>
 <p>{{ bid.description }}</p>
 
 <div class="entries">
