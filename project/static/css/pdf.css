@@ -1,44 +1,31 @@
-* {
-    border: 1px dashed blue;
-}
 
 #title {
-    font-family: 'Georgia', serif;
     font-size: 1.5em;
-    margin-top: 0;
-    text-align: center;
+    margin-top: -20px;
 }
 
 #logo {
     width: 200px;
     height: 67.25px;
+    margin-top: -20px;
 }
 
 #company_address {
     font-size: .7em;
 }
 
-#customer {
-    float: left;
-    font-size: .8em;
+#wrapper {
+    width: 100%
 }
 
-#description {
-    clear: both;
-}
+
 
 /*
-body {
-  padding: 60px 0;
-  background: #ffffff;
-}
-*/
-
-
 h1, h2, h4 {
   font-family: 'Georgia', serif;
   margin: 0;
 }
+*/
 
 h1 {
   border-bottom: 2px solid #eee;
@@ -49,7 +36,8 @@ h2 {
 }
 
 h4 {
-    font-size: 1.2em;
+    font-size: 1em;
+    margin: 0px;
 }
 
 

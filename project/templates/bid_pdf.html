@@ -18,7 +18,7 @@
         </td>
 
         <td style="vertical-align:top; width: 33.3333%; text-align: center">
-            <h2>Proposal</h2><br>
+            <h2 id="title">Proposal</h2>
             <div id="company_address">
                 179 Marvy St<br>
                 Lino Lakes, MN 55014<br>
@@ -27,34 +27,38 @@
             </div>
         </td>
 
-        <td style="vertical-align:top; width: 33.3333%; text-align: right">
-            This is my right header and its really reallly really long
+        <td style="vertical-align:top; width: 33.3333%; text-align: right; font-size: .9em;">
+            Date: {{ bid_time }}<br>
+            Invoice: {{ "{0:0>4}".format(bid.id) }}
         </td>
 
     </tr>
 </table>
+<br>
 
+<table id="wrapper">
+    <td style="vertical-align:top; width: 50%; text-align: left; font-size: .8em;">
+            <h4 style="margin-bottom: 5px;">Customer Address</h4>
+            Jeff Anderson<br>
+            555 1234 ST NE<br>
+            Mytown, USA 55555<br>
+            763-555-1000<br>
+            jeffanderson@domain.com
+    </td>
 
-<div>
-    <p id="customer">
-        Jeff Anderson<br>
-        555 1234 ST NE<br>
-        Mytown, USA 55555<br>
-        763-555-1000<br>
-        jeffanderson@domain.com
-    </p>
-</div>
-<h4 id="description">Job Description</h4>
-<p>{{ bid.description }}</p>
+    <td style="vertical-align:top; width: 50%; text-align: left; font-size: .8em">
+        <h4 style="margin-bottom: 5px;">Project Overview</h4>
+        <p>{{ bid.description }}</p>
+    </td>
+</table>
 
+<br>
 <div class="entries">
     <div class="datagrid">
     <table>
       <thead>
         <tr>
           <th width="50px"><strong>Description</strong></th>
-          <th width="50px"></th>
-          <th width="50px"></th>
           <th width="75px"><strong>Quantity</strong></th>
           <th width="30px"><strong>Cost</strong></th>
           <th width="30px"><strong>Total</strong></th>
@@ -65,8 +69,6 @@
         {% for item in items %}
             <tr>
               <td width="75px">{{ item.description }}</td>
-              <td width="30px"></td>
-              <td width="30px"></td>
               <td width="30px">{{ "{0:0.1f}".format(item.quantity) }}</td>
               <td width="30px">{{ "{0:0.2f}".format(item.cost) }}</td>
               <td width="30px">{{ "{0:0.2f}".format(item.total) }}</td>
@@ -76,8 +78,6 @@
        <thead>
         <tr>
           <th width="75px"><strong>Total</strong></th>
-          <th width="30px"><strong></strong></th>
-          <th width="30px"><strong></strong></th>
           <th width="30px"><strong></strong></th>
           <th width="30px"><strong></strong></th>
           <th width="30px"><strong>{{ "${0:0.2f}".format(sum_of_items[0]) }}</strong></th>
