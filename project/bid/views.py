@@ -154,7 +154,8 @@ def bid_create_pdf(bid_id_pdf):
                            bid_id=bid_id_pdf,
                            sum_of_items=sum_all_items_one_bid(bid_id_pdf),
                            items=query_one_bid_items(bid_id_pdf),
-                           bid=query_bid(bid_id_pdf))
+                           bid=query_bid(bid_id_pdf),
+                           bid_time=datetime.datetime.now(pytz.timezone('US/Central')).strftime('%x'))
     return render_pdf(HTML(string=html))
 
 
