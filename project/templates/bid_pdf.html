@@ -18,7 +18,7 @@
         </td>
 
         <td style="vertical-align:top; width: 33.3333%; text-align: center">
-            <h2 id="title">Proposal</h2>
+            <h2 id="title"><em>Proposal</em></h2>
             <div id="company_address">
                 179 Marvy St<br>
                 Lino Lakes, MN 55014<br>
@@ -35,15 +35,16 @@
     </tr>
 </table>
 <br>
+<div id="header-line" style="border-bottom: 4px double gray;"></div>
 
 <table id="wrapper">
     <td style="vertical-align:top; width: 50%; text-align: left; font-size: .8em;">
             <h4 style="margin-bottom: 5px;">Customer Address</h4>
-            Jeff Anderson<br>
-            555 1234 ST NE<br>
-            Mytown, USA 55555<br>
-            763-555-1000<br>
-            jeffanderson@domain.com
+            {{ customer.name.upper() }}<br>
+            {{ address.street }}<br>
+            {{ address.city }}, {{ address.state }}, {{ address.zip }}<br>
+            {{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}<br>
+            {{ customer.email }}
     </td>
 
     <td style="vertical-align:top; width: 50%; text-align: left; font-size: .8em">
@@ -59,9 +60,9 @@
       <thead>
         <tr>
           <th width="50px"><strong>Description</strong></th>
-          <th width="75px"><strong>Quantity</strong></th>
-          <th width="30px"><strong>Cost</strong></th>
-          <th width="30px"><strong>Total</strong></th>
+          <th width="75px"style="text-align: center;"><strong>Quantity</strong></th>
+          <th width="30px" style="text-align: center;"><strong>Cost</strong></th>
+          <th width="30px" style="text-align: right;"><strong>Total</strong></th>
         </tr>
       </thead>
 
@@ -69,9 +70,9 @@
         {% for item in items %}
             <tr>
               <td width="75px">{{ item.description }}</td>
-              <td width="30px">{{ "{0:0.1f}".format(item.quantity) }}</td>
-              <td width="30px">{{ "{0:0.2f}".format(item.cost) }}</td>
-              <td width="30px">{{ "{0:0.2f}".format(item.total) }}</td>
+              <td width="30px" style="text-align: center;">{{ "{0:0.1f}".format(item.quantity) }}</td>
+              <td width="30px" style="text-align: center;">{{ "{0:0.2f}".format(item.cost) }}</td>
+              <td width="30px" style="text-align: right;">{{ "{0:0.2f}".format(item.total) }}</td>
             </tr>
         {% endfor %}
 
@@ -80,7 +81,7 @@
           <th width="75px"><strong>Total</strong></th>
           <th width="30px"><strong></strong></th>
           <th width="30px"><strong></strong></th>
-          <th width="30px"><strong>{{ "${0:0.2f}".format(sum_of_items[0]) }}</strong></th>
+          <th width="30px" style="text-align: right;"><strong>{{ "${0:0.2f}".format(sum_of_items[0]) }}</strong></th>
         </tr>
       </thead>
 
@@ -89,7 +90,7 @@
     </table>
   </div>
 </div>
-<p style="text-align: center">Thank You For Your Business</p>
+<p style="text-align: center; font-size:.9em;">Thank You For Your Business</p>
 
 {% endblock %}
 </body>
