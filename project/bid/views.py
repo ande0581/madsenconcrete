@@ -138,24 +138,16 @@ def bid_delete(bid_delete_id):
 @login_required
 def bid_create_pdf(bid_id_pdf):
     bid = db.session.query(Bid).filter_by(id=bid_id_pdf).first()
-    items = db.session.query(BidItem).filter_by(bid_id=bid_id_pdf)
     address = db.session.query(Address).filter_by(id=bid.address_id).first()
     customer = db.session.query(Customer).filter_by(id=address.customer_id).first()
-    print "bid.description:", bid.description
-    for item in items:
-        print "item.description:", item.description
-    print "customer.name:", customer.name
-    print "address.street:", address.street
-    print "address.city:", address.city
-    print "address.state:", address.state
-    print "address.zip:", address.zip
-
     html = render_template('bid_pdf.html',
                            bid_id=bid_id_pdf,
                            sum_of_items=sum_all_items_one_bid(bid_id_pdf),
                            items=query_one_bid_items(bid_id_pdf),
                            bid=query_bid(bid_id_pdf),
-                           bid_time=datetime.datetime.now(pytz.timezone('US/Central')).strftime('%x'))
+                           bid_time=datetime.datetime.now(pytz.timezone('US/Central')).strftime('%x'),
+                           address=address,
+                           customer=customer)
     return render_pdf(HTML(string=html))
 
 
