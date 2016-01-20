@@ -13,7 +13,7 @@
           <th><strong>Telephone</strong></th>
         </tr>
       </thead>
-      {% for customer in customers %}
+      {% for customer in customers.items %}
         <tr>
           <td><a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}">{{ customer.name }}</a></td>
           <td>{{ customer.email }}</td>
@@ -23,5 +23,16 @@
     </table>
   </div>
 <div>
+{% if customers.has_prev %}
+  <a href="{{ url_for('customer.customers', page=customers.prev_num) }}">&lt;&lt; Previous</a>
+{% else %}
+  &lt;&lt; Previous
+{% endif %}
+  |
+{% if customers.has_next %}
+  <a href="{{ url_for('customer.customers', page=customers.next_num) }}">Next &gt;&gt;</a>
+{% else %}
+  Next &gt;&gt;
+{% endif %}
 
-{% endblock %}
+  {% endblock %}

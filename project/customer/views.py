@@ -65,10 +65,13 @@ def query_all_customers():
 
 # Main Customer Page
 @customer_blueprint.route('/customers/', methods=['GET', 'POST'])
+@customer_blueprint.route('/customers/page/', methods=['GET', 'POST'])
+@customer_blueprint.route('/customers/page/<int:page>/', methods=['GET', 'POST'])
 @login_required
-def customers():
+def customers(page=1):
     error = None
-    return render_template('customers.html', customers=query_all_customers(), error=error)
+    all_customers = Customer.query.order_by(Customer.name.asc()).paginate(page, 20, False)
+    return render_template('customers.html', customers=all_customers, error=error)
 
 
 # Specific Customer Details
