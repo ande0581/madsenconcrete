@@ -1,4 +1,6 @@
 __author__ = 'Jeff'
+# to run the tests:
+# (env) C:\Users\Jeff\PycharmProjects\madsenconcrete>nosetests --with-coverage --cover-erase --cover-package=project
 
 import unittest
 import datetime
@@ -45,6 +47,11 @@ class AllTests(unittest.TestCase):
         return self.app.post('customer_add/', data=dict(name="Beta Company",
                                                         telephone="7635551000",
                                                         email="betacompany@domain.com"), follow_redirects=True)
+
+    def customer_add_1(self):
+        return self.app.post('customer_add/', data=dict(name="Alpha Company",
+                                                        telephone="9525551000",
+                                                        email="alphacompany@domain.com"), follow_redirects=True)
 
     def address_add(self):
         return self.app.post('address_add/1/', data=dict(street="1234 Ave NE", city="Hometown", state="MN",
@@ -183,6 +190,14 @@ class AllTests(unittest.TestCase):
 
     def test_not_logged_in_cannot_access_item_delete(self):
         response = self.app.get('item_delete/1/', follow_redirects=True)
+        self.assertIn(b'You need to login first', response.data)
+
+    def test_not_logged_in_cannot_access_customers_page(self):
+        response = self.app.get('customers/page/', follow_redirects=True)
+        self.assertIn(b'You need to login first', response.data)
+
+    def test_not_logged_in_cannot_access_customers_page_1(self):
+        response = self.app.get('customers/page/1/', follow_redirects=True)
         self.assertIn(b'You need to login first', response.data)
 
     ################################
@@ -330,6 +345,13 @@ class AllTests(unittest.TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertIn(b'This is my service description', response.data)
 
+    def test_logged_in_can_view_customer_pagination(self):
+        # can view customer's pagination page
+        self.test_logged_in_can_add_everything()
+        response = self.app.get('customers/page/1/', follow_redirects=True)
+        self.assertEquals(response.status_code, 200)
+        self.assertIn(b'Beta Company', response.data)
+
     ###################################
     # logged in can delete everything #
     ###################################
@@ -437,6 +459,28 @@ class AllTests(unittest.TestCase):
         # Quantity a string not a float
         response = self.app.post('item_add/1/', data=dict(quantity="1.5", serrvice_id="1"), follow_redirects=True)
         self.assertIn('This field is required', response.data)
+
+
+    ###################
+    # Test Pagination #
+    ###################
+
+    def test_pagination_of_customer_list_with_search_string(self):
+        self.login(USERNAME, PASSWORD)
+        self.test_logged_in_can_add_everything()
+        self.customer_add_1()
+        # Have two customers, searching for one make sure one exists and the other doesn't
+        response = self.app.post('customers/', data=dict(name="beta"), follow_redirects=True)
+        self.assertIn('Beta Company', response.data)
+        self.assertNotIn('Alpha Company', response.data)
+
+    def test_pagination_of_customer_list_without_search_string(self):
+        self.login(USERNAME, PASSWORD)
+        self.test_logged_in_can_add_everything()
+        self.customer_add_1()
+        response = self.app.post('customers/', data=dict(name=""), follow_redirects=True)
+        self.assertIn('Beta Company', response.data)
+        self.assertIn('Alpha Company', response.data)
 
     ######################################
     # Test Good Form Validations on Edit #
