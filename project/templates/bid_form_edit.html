@@ -6,6 +6,7 @@
 {{ address.city }}, {{ address.state }} {{ address.zip }}
 <br>
 
+
 <form class="form-signin" role="form" method="post" action="{{ action }}">
   {{ form.csrf_token }}
 
@@ -68,7 +69,6 @@ Completion Date: {{ form.completion_date(placeholder="MM/DD/YYYY") }}<br>
 <br>
 <div class="entries">
   <h4>Items (<a href="{{ url_for('item.item_add', bid_id=bid_id) }}">Add</a>)</h4>
-    <h4><a href="{{ url_for('bid.bid_create_pdf', bid_id_pdf=bid_id) }}" target="_blank">PDF</a></h4>
     <div class="datagrid">
     <table>
       <thead>
@@ -112,10 +112,9 @@ Completion Date: {{ form.completion_date(placeholder="MM/DD/YYYY") }}<br>
   </div>
 </div>
 <br>
-
-
-
-  <button class="btn btn-sm btn-success" type="submit">Save</button>
+    <button class="btn btn-sm btn-success" type="submit">Save</button>
+    <a href="{{ url_for('bid.bid_create_pdf', bid_id_pdf=bid_id) }}" target="_blank" class="btn btn-sm btn-info"
+       role="button">Create PDF</a>
 </form>
 
 {% endblock %}
