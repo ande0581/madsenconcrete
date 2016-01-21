@@ -460,7 +460,6 @@ class AllTests(unittest.TestCase):
         response = self.app.post('item_add/1/', data=dict(quantity="1.5", serrvice_id="1"), follow_redirects=True)
         self.assertIn('This field is required', response.data)
 
-
     ###################
     # Test Pagination #
     ###################
