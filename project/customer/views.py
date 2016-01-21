@@ -6,7 +6,7 @@ import datetime
 from functools import wraps
 from flask import flash, redirect, render_template, request, session, url_for, Blueprint
 
-from .forms import AddCustomerForm
+from .forms import AddCustomerForm, SearchCustomersForm
 from project import db
 from project.models import Customer, Journal, Bid, Address
 
@@ -55,10 +55,6 @@ def query_customer_journal(cust_journal_id):
     return db.session.query(Journal).filter_by(customer_id=cust_journal_id).order_by(Journal.timestamp.desc())
 
 
-def query_all_customers():
-    return db.session.query(Customer).order_by(Customer.name.asc())
-
-
 ##########
 # Routes #
 ##########
@@ -70,8 +66,19 @@ def query_all_customers():
 @login_required
 def customers(page=1):
     error = None
-    all_customers = Customer.query.order_by(Customer.name.asc()).paginate(page, 20, False)
-    return render_template('customers.html', customers=all_customers, error=error)
+    form = SearchCustomersForm(request.form)
+    if request.method == "POST":
+        if form.validate_on_submit() and len(form.name.data) > 0:
+            search = "%" + form.name.data + "%"
+            # Show all search results on one page
+            all_customers = Customer.query.filter(Customer.name.like(search)).order_by(Customer.name.asc())
+            all_customers = all_customers.paginate(page, all_customers.count(), False)
+        else:
+            all_customers = Customer.query.order_by(Customer.name.asc())
+            all_customers = all_customers.paginate(page, 20, False)
+    else:
+        all_customers = Customer.query.order_by(Customer.name.asc()).paginate(page, 20, False)
+    return render_template('customers.html', customers=all_customers, form=form, error=error)
 
 
 # Specific Customer Details
