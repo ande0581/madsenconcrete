@@ -10,3 +10,6 @@ class AddCustomerForm(Form):
     name = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[Optional(), Email()])
     telephone = StringField('Telephone', validators=[Optional(), Length(min=10, max=10)])
+
+class SearchCustomersForm(Form):
+    name = StringField('Name', validators=[Optional()])
