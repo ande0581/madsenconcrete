@@ -7,12 +7,14 @@
 <br>
 
 <br>
+<!--
 <div class="example-container">
     <p>Trying Basic Time Widget:</p>
     <div>
         <input type="text" name="datetime" id="datetime" value="Enter Date">
     </div>
 </div>
+-->
 
 
 
@@ -30,7 +32,12 @@
     </span>
 <br>
 
-Scheduled Bid Date: {{ form.scheduled_bid_date(placeholder="MM/DD/YYYY") }}<br>
+
+Scheduled Bid Date:
+<div>
+    <input type="text" name="scheduled_bid_date" id="scheduled_bid_date" value="">
+</div>
+<br>
     <span class="error">
       {% if form.scheduled_bid_date.errors %}
         {% for error in form.scheduled_bid_date.errors %}

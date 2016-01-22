@@ -6,7 +6,6 @@
 {{ address.city }}, {{ address.state }} {{ address.zip }}
 <br>
 
-
 <form class="form-signin" role="form" method="post" action="{{ action }}">
   {{ form.csrf_token }}
 
@@ -30,7 +29,14 @@
       {% endif %}
     </span>
 
-Scheduled Bid Date: {{ form.scheduled_bid_date(placeholder="MM/DD/YYYY") }}<br>
+
+
+<div>
+    Scheduled Bid Date:
+        <input type="text" name="scheduled_bid_date" id="scheduled_bid_date" value="{{ form.scheduled_bid_date.data }}">
+</div>
+
+
     <span class="error">
       {% if form.scheduled_bid_date.errors %}
         {% for error in form.scheduled_bid_date.errors %}
@@ -39,7 +45,11 @@ Scheduled Bid Date: {{ form.scheduled_bid_date(placeholder="MM/DD/YYYY") }}<br>
       {% endif %}
     </span>
 
-Tentative Start Date: {{ form.tentative_start(placeholder="MM/DD/YYYY") }}<br>
+
+<div>
+    Tentative Start Date:
+    <input type="text" name="tentative_start" id="tentative_start" value="{{ form.tentative_start.data }}">
+</div>
     <span class="error">
       {% if form.tentative_start.errors %}
         {% for error in form.tentative_start.errors %}
@@ -48,7 +58,11 @@ Tentative Start Date: {{ form.tentative_start(placeholder="MM/DD/YYYY") }}<br>
       {% endif %}
     </span>
 
-Actual Start Date: {{ form.actual_start(placeholder="MM/DD/YYYY") }}<br>
+
+<div>
+    Actual Start Date:
+    <input type="text" name="actual_start" id="actual_start" value="{{ form.actual_start.data }}">
+</div>
     <span class="error">
       {% if form.actual_start.errors %}
         {% for error in form.actual_start.errors %}
@@ -57,7 +71,11 @@ Actual Start Date: {{ form.actual_start(placeholder="MM/DD/YYYY") }}<br>
       {% endif %}
     </span>
 
-Completion Date: {{ form.completion_date(placeholder="MM/DD/YYYY") }}<br>
+
+<div>
+    Completion Date:
+    <input type="text" name="completion_date" id="completion_date" value="{{ form.completion_date.data }}">
+</div>
     <span class="error">
       {% if form.completion_date.errors %}
         {% for error in form.completion_date.errors %}
