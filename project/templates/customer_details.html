@@ -99,7 +99,7 @@
       </thead>
       {% for entry in journal %}
       <tr>
-          <td>{{ entry.timestamp.strftime('%c') }}</td>
+          <td>{{ entry.timestamp.strftime('%x %I:%M %p') }}</td>
           <td>{{ entry.body }}</td>
           <td>
               <a href="{{ url_for('journal.journal_edit', journal_edit_id=entry.id) }}"
