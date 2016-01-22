@@ -68,14 +68,37 @@
 
 
     <script type="text/javascript">
-    $(function() {
-        $('#datetime').datetimepicker({
-          showSecond: true,
-          timeFormat: 'hh:mm:ss',
-          stepHour: 2,
-          stepMinute: 10,
+     $(function() {
+        $('#scheduled_bid_date').datetimepicker({
+        dateFormat: 'yy-mm-dd',
+        timeFormat: 'HH:mm:ss'
+         });
+     });
+     </script>
+
+    <script type="text/javascript">
+     $(function() {
+        $('#tentative_start').datepicker({
+        dateFormat: 'yy-mm-dd'
+         });
+     });
+     </script>
+
+    <script type="text/javascript">
+     $(function() {
+        $('#actual_start').datepicker({
+        dateFormat: 'yy-mm-dd'
          });
     });
-    </script>
+     </script>
+
+    <script type="text/javascript">
+     $(function() {
+        $('#completion_date').datepicker({
+        dateFormat: 'yy-mm-dd'
+         });
+    });
+     </script>
+
   </body>
 </html>
