@@ -76,9 +76,9 @@ class Bid(db.Model):
     customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
     address_id = db.Column(db.Integer, db.ForeignKey('address.id'))
     scheduled_bid_date = db.Column(db.DateTime)
-    tentative_start = db.Column(db.DateTime)
-    actual_start = db.Column(db.DateTime)
-    completion_date = db.Column(db.DateTime)
+    tentative_start = db.Column(db.Date)
+    actual_start = db.Column(db.Date)
+    completion_date = db.Column(db.Date)
     status = db.Column(db.String)
 
     def __init__(self, description, timestamp, customer_id, address_id, scheduled_bid_date, tentative_start,
