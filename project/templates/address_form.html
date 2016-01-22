@@ -5,7 +5,7 @@
 <form class="form-signin" role="form" method="post" action="{{ action }}">
   {{ form.csrf_token }}
     <br>
-    <h4>Address</h4>
+    <h4><strong>Address</strong></h4>
     {{ form.street(placeholder="street") }}
     <span class="error">
       {% if form.street.errors %}

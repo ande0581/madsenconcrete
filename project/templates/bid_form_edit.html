@@ -10,7 +10,7 @@
 <form class="form-signin" role="form" method="post" action="{{ action }}">
   {{ form.csrf_token }}
 
-  <h4>Description</h4>
+  <h4><strong>Description</strong></h4>
   {{ form.description(cols="100", rows="2") }}
   <span class="error">
       {% if form.description.errors %}
@@ -68,7 +68,8 @@ Completion Date: {{ form.completion_date(placeholder="MM/DD/YYYY") }}<br>
 
 <br>
 <div class="entries">
-  <h4>Items (<a href="{{ url_for('item.item_add', bid_id=bid_id) }}">Add</a>)</h4>
+  <h4><strong>Items </strong><a href="{{ url_for('item.item_add', bid_id=bid_id) }}"
+          class="btn btn-sm btn-success">Add</a></h4>
     <div class="datagrid">
     <table>
       <thead>

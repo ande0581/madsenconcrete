@@ -1,44 +1,50 @@
 {% extends "_base.html" %}
 
 {% block content %}
-<h4>Customer Details:</h4><br>
+<h4><strong>Customer Details:</strong></h4>
  {{ customer.name }}<br>
  {{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}<br>
  {{ customer.email }}<br>
- Created: {{ customer.created_date }}<br>
-<a href="{{ url_for('customer.customer_edit', customer_edit_id=customer_id) }}" class="btn btn-sm btn-info" role="button">Edit</a>
+ <em>Created: {{ customer.created_date }}</em><br>
+<a href="{{ url_for('customer.customer_edit', customer_edit_id=customer_id) }}" class="btn btn-sm btn-info"
+   role="button">Edit</a>
 <a href="{{ url_for('customer.customer_delete', customer_del_id=customer_id) }}" class="btn btn-sm btn-danger"
    role="button" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
 <br>
 <br>
 
 <div class="entries">
-  <h4>Addresses <a href="{{ url_for('address.address_add', customer_id=customer_id) }}" class="btn btn-sm btn-success" role="button">Add</a></h4>
+  <h4><strong>Addresses </strong><a href="{{ url_for('address.address_add', customer_id=customer_id) }}"
+                                    class="btn btn-sm btn-success" role="button">Add</a></h4>
   <div class="datagrid">
     <table>
       <thead>
         <tr>
-          <th width="200px"><strong>Street</strong></th>
-          <th width="75px"><strong>City</strong></th>
-          <th width="100px"><strong>State</strong></th>
-          <th width="100px"><strong>ZIP</strong></th>
-          <th width="50px"><strong>Bid</strong></th>
-          <th width="50px"><strong>Edit</strong></th>
-          <th width="50px"><strong>Delete</strong></th>
+          <th width="40%"><strong>Street</strong></th>
+          <th width="20%"><strong>City</strong></th>
+          <th width="5%"><strong>State</strong></th>
+          <th width="7%"><strong>ZIP</strong></th>
+          <th width="28%"><strong>Actions</strong></th>
         </tr>
       </thead>
       {% for address in addresses %}
         <tr>
-          <td width="200px">
-            <a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+{{ address.state }}+{{ address.zip }}" target="_blank">{{ address.street }}</a></td>
-          <td width="75px">{{ address.city }}</td>
-          <td width="100px">{{ address.state}}</td>
-          <td width="100px">{{ address.zip}}</td>
-          <td width="50px"><a href="{{ url_for('bid.bid_add', bid_customer_id=address.customer_id,
-           bid_address_id=address.id) }} ">Schedule</a></td>
-          <td width="50px"><a id="myAnchor" href="{{ url_for('address.address_edit', address_edit_id=address.id) }}">Edit</a></td>
-          <td width="50px"><a href="{{ url_for('address.address_delete', address_del_id=address.id) }}"
-                              onclick="return confirm('Are you sure you want to delete this item?');">Delete</a></td>
+            <td>
+                <a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+
+                {{ address.state }}+{{ address.zip }}" target="_blank">{{ address.street }}</a></td>
+            <td>{{ address.city }}</td>
+            <td>{{ address.state}}</td>
+            <td>{{ address.zip}}</td>
+            <td>
+                <a href="{{ url_for('bid.bid_add', bid_customer_id=address.customer_id,
+                bid_address_id=address.id) }} " class="btn btn-sm btn-primary">Schedule Bid</a>
+
+                <a id="myAnchor" href="{{ url_for('address.address_edit', address_edit_id=address.id) }}"
+                              class="btn btn-sm btn-info">Edit</a>
+
+                <a href="{{ url_for('address.address_delete', address_del_id=address.id) }}" class="btn btn-sm btn-danger"
+                              onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+            </td>
         </tr>
       {% endfor %}
     </table>
@@ -48,24 +54,29 @@
 
 
 <div class="entries">
-  <h4>Bids</h4>
+  <h4><strong>Bids</strong></h4>
   <div class="datagrid">
     <table>
       <thead>
         <tr>
-          <th width="75px"><strong>Date</strong></th>
-          <th width="500px"><strong>Description</strong></th>
-          <th width="200"><strong>Status</strong></th>
-          <th width="50px"><strong>Delete</strong></th>
+          <th width="10%"><strong>Date</strong></th>
+          <th width="55%"><strong>Description</strong></th>
+          <th width="20%"><strong>Status</strong></th>
+          <th width="15%"><strong>Actions</strong></th>
         </tr>
       </thead>
       {% for bid in bids %}
       <tr>
-          <td width="75px">{{ bid.timestamp.strftime('%x') }}</td>
-          <td width="500px"><a href="{{ url_for('bid.bid_edit', bid_edit_id=bid.id) }}">{{ bid.description }}</a></td>
-          <td width="200px">{{ bid.status }}</td>
-          <td width="50px"><a href="{{ url_for('bid.bid_delete', bid_delete_id=bid.id) }}"
-                              onclick="return confirm('Are you sure you want to delete this item?');">Delete</a></td>
+          <td>{{ bid.timestamp.strftime('%x') }}</td>
+          <td>{{ bid.description }}</a></td>
+          <td>{{ bid.status }}</td>
+          <td>
+              <a href="{{ url_for('bid.bid_edit', bid_edit_id=bid.id) }}" class="btn btn-sm btn-info">Edit</a>
+
+              <a href="{{ url_for('bid.bid_delete', bid_delete_id=bid.id) }}"
+                              onclick="return confirm('Are you sure you want to delete this item?');"
+                  class="btn btn-sm btn-danger">Delete</a>
+          </td>
       </tr>
       {% endfor %}
     </table>
@@ -75,24 +86,28 @@
 
 <br>
 <div class="entries">
-  <h4>Journal (<a href="{{ url_for('journal.journal_add', journal_add_id=customer_id) }}">Add</a>)</h4>
+  <h4><strong>Journal Entries </strong><a href="{{ url_for('journal.journal_add', journal_add_id=customer_id) }}"
+          class="btn btn-sm btn-success">Add</a></h4>
   <div class="datagrid">
     <table>
       <thead>
         <tr>
-          <th width="75px"><strong>Date</strong></th>
-          <th width="500px"><strong>Post</strong></th>
-          <th width="50px"><strong>Edit</strong></th>
-          <th width="50px"><strong>Delete</strong></th>
+          <th width="12%"><strong>Date</strong></th>
+          <th width="73%"><strong>Post</strong></th>
+          <th width="15%"><strong>Actions</strong></th>
         </tr>
       </thead>
       {% for entry in journal %}
       <tr>
-          <td width="75px">{{ entry.timestamp.strftime('%c') }}</td>
-          <td width="500px">{{ entry.body }}</td>
-          <td width="50px"><a href="{{ url_for('journal.journal_edit', journal_edit_id=entry.id) }}">Edit</a></td>
-          <td width="50px"><a href="{{ url_for('journal.journal_delete', journal_del_id=entry.id) }}"
-                              onclick="return confirm('Are you sure you want to delete this item?');">Delete</a></td>
+          <td>{{ entry.timestamp.strftime('%c') }}</td>
+          <td>{{ entry.body }}</td>
+          <td>
+              <a href="{{ url_for('journal.journal_edit', journal_edit_id=entry.id) }}"
+                      class="btn btn-sm btn-info">Edit</a>
+
+              <a href="{{ url_for('journal.journal_delete', journal_del_id=entry.id) }}" class="btn btn-sm btn-danger"
+                      onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+          </td>
       </tr>
       {% endfor %}
     </table>

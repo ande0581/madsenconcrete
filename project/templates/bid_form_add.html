@@ -9,7 +9,7 @@
 <form class="form-signin" role="form" method="post" action="{{ action }}">
   {{ form.csrf_token }}
 
-  <h4>Description</h4>
+  <h4><strong>Description</strong></h4>
   {{ form.description(cols="100", rows="2") }}
   <span class="error">
       {% if form.description.errors %}

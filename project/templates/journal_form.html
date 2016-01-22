@@ -5,7 +5,7 @@
 <form class="form-signin" role="form" method="post" action="{{ action }}">
   {{ form.csrf_token }}
     <br>
-    <h4>Journal Entry</h4>
+    <h4><strong>Journal Entry</strong></h4>
     {{ form.body(cols="80", rows="5") }}
     <span class="error">
       {% if form.body.errors %}

@@ -2,16 +2,16 @@
 {% block content %}
 
 <div class="entries">
-  <h4>Jobs that Need a Bid</h4>
+  <h4><strong>Jobs that Need a Bid</strong></h4>
   <div class="datagrid">
     <table>
       <thead>
         <tr>
-          <th width="75px"><strong>Customer</strong></th>
-          <th width="500px"><strong>Description</strong></th>
-          <th width="130px"><strong>Scheduled Date</strong></th>
-          <th width="220"><strong>Address</strong></th>
-          <th width="100px"><strong>Telephone</strong></th>
+          <th width="15%"><strong>Customer</strong></th>
+          <th width="35%"><strong>Description</strong></th>
+          <th width="12%"><strong>Scheduled Date</strong></th>
+          <th width="25%"><strong>Address</strong></th>
+          <th width="13%"><strong>Telephone</strong></th>
         </tr>
       </thead>
       {% for bid in bids %}
@@ -19,20 +19,20 @@
           <tr>
             {% for customer in customers %}
                 {% if bid.customer_id == customer.id %}
-                    <td width="75px"><a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}">{{ customer.name }}</a></td>
+                    <td><a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}">{{ customer.name }}</a></td>
                 {% endif %}
             {% endfor %}
 
-            <td width="500px">{{ bid.description }}</td>
+            <td>{{ bid.description }}</td>
             {% if bid.scheduled_bid_date is not none: %}
-                <td width="130px">{{ bid.scheduled_bid_date.strftime('%x') }}</td>
+                <td>{{ bid.scheduled_bid_date.strftime('%x') }}</td>
             {% else: %}
-                <td width="130px"></td>
+                <td></td>
             {% endif %}
 
             {% for address in addresses %}
                 {% if bid.address_id == address.id %}
-                   <td width="220px"><a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+{{ address.state }}+{{ address.zip }}"
+                   <td><a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+{{ address.state }}+{{ address.zip }}"
                     target="_blank">{{ address.street }}, {{ address.city }}, {{ address.state }}</a></td>
                 {% endif %}
             {% endfor %}
@@ -40,7 +40,7 @@
 
             {% for customer in customers %}
                 {% if bid.customer_id == customer.id %}
-                    <td width="100px">{{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}</td>
+                    <td>{{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}</td>
                 {% endif %}
             {% endfor %}
           </tr>
@@ -54,16 +54,16 @@
 
 <div class="entries">
     <br>
-  <h4>Jobs In Progress</h4>
+  <h4><strong>Jobs In Progress</strong></h4>
   <div class="datagrid">
     <table>
       <thead>
         <tr>
-          <th width="75px"><strong>Customer</strong></th>
-          <th width="500px"><strong>Description</strong></th>
-          <th width="100px"><strong>Started Date</strong></th>
-          <th width="220"><strong>Address</strong></th>
-          <th width="100px"><strong>Telephone</strong></th>
+          <th width="15%"><strong>Customer</strong></th>
+          <th width="35%"><strong>Description</strong></th>
+          <th width="12%"><strong>Started Date</strong></th>
+          <th width="25%"><strong>Address</strong></th>
+          <th width="13%"><strong>Telephone</strong></th>
         </tr>
       </thead>
 
@@ -72,21 +72,21 @@
           <tr>
             {% for customer in customers %}
                 {% if bid.customer_id == customer.id %}
-                    <td width="75px"><a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}">{{ customer.name }}</a></td>
+                    <td><a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}">{{ customer.name }}</a></td>
                 {% endif %}
             {% endfor %}
 
-            <td width="500px">{{ bid.description }}</td>
+            <td>{{ bid.description }}</td>
 
             {% if bid.actual_start is not none: %}
-                <td width="130px">{{ bid.actual_start.strftime('%x') }}</td>
+                <td>{{ bid.actual_start.strftime('%x') }}</td>
             {% else %}
-                <td width="130px"></td>
+                <td></td>
             {% endif %}
 
             {% for address in addresses %}
                 {% if bid.address_id == address.id %}
-                   <td width="220px"><a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+{{ address.state }}+{{ address.zip }}"
+                   <td><a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+{{ address.state }}+{{ address.zip }}"
                     target="_blank">{{ address.street }}, {{ address.city }}, {{ address.state }}</a></td>
                 {% endif %}
             {% endfor %}
@@ -94,7 +94,7 @@
 
             {% for customer in customers %}
                 {% if bid.customer_id == customer.id %}
-                    <td width="100px">{{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}</td>
+                    <td>{{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}</td>
                 {% endif %}
             {% endfor %}
           </tr>
@@ -107,16 +107,16 @@
 
 <div class="entries">
     <br>
-  <h4>Jobs in Queue</h4>
+  <h4><strong>Jobs in Queue</strong></h4>
   <div class="datagrid">
     <table>
       <thead>
         <tr>
-          <th width="75px"><strong>Customer</strong></th>
-          <th width="400px"><strong>Description</strong></th>
-          <th width="100px"><strong>Tentative Date</strong></th>
-          <th width="220"><strong>Address</strong></th>
-          <th width="100px"><strong>Telephone</strong></th>
+          <th width="15%"><strong>Customer</strong></th>
+          <th width="35%"><strong>Description</strong></th>
+          <th width="12%"><strong>Tentative Date</strong></th>
+          <th width="25%"><strong>Address</strong></th>
+          <th width="13%"><strong>Telephone</strong></th>
         </tr>
       </thead>
 
@@ -125,21 +125,21 @@
           <tr>
             {% for customer in customers %}
                 {% if bid.customer_id == customer.id %}
-                    <td width="75px"><a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}">{{ customer.name }}</a></td>
+                    <td><a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}">{{ customer.name }}</a></td>
                 {% endif %}
             {% endfor %}
 
-            <td width="400px">{{ bid.description }}</td>
+            <td>{{ bid.description }}</td>
 
             {% if bid.tentative_start is not none: %}
-                <td width="130px">{{ bid.tentative_start.strftime('%x') }}</td>
+                <td>{{ bid.tentative_start.strftime('%x') }}</td>
             {% else %}
-                <td width="130px"></td>
+                <td></td>
             {% endif %}
 
             {% for address in addresses %}
                 {% if bid.address_id == address.id %}
-                   <td width="220px"><a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+{{ address.state }}+{{ address.zip }}"
+                   <td><a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+{{ address.state }}+{{ address.zip }}"
                     target="_blank">{{ address.street }}, {{ address.city }}, {{ address.state }}</a></td>
                 {% endif %}
             {% endfor %}
@@ -147,7 +147,7 @@
 
             {% for customer in customers %}
                 {% if bid.customer_id == customer.id %}
-                    <td width="100px">{{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}</td>
+                    <td>{{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}</td>
                 {% endif %}
             {% endfor %}
           </tr>
@@ -161,16 +161,16 @@
 
 <div class="entries">
     <br>
-  <h4>Jobs Awaiting Customer Acceptance</h4>
+  <h4><strong>Jobs Awaiting Customer Acceptance</strong></h4>
   <div class="datagrid">
     <table>
       <thead>
         <tr>
-          <th width="75px"><strong>Customer</strong></th>
-          <th width="500px"><strong>Description</strong></th>
-          <th width="100px"><strong>Bid Created</strong></th>
-          <th width="220"><strong>Address</strong></th>
-          <th width="100px"><strong>Telephone</strong></th>
+          <th width="15%"><strong>Customer</strong></th>
+          <th width="35%"><strong>Description</strong></th>
+          <th width="12%"><strong>Bid Created</strong></th>
+          <th width="25%"><strong>Address</strong></th>
+          <th width="13%"><strong>Telephone</strong></th>
         </tr>
       </thead>
 
@@ -179,16 +179,16 @@
           <tr>
             {% for customer in customers %}
                 {% if bid.customer_id == customer.id %}
-                    <td width="75px"><a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}">{{ customer.name }}</a></td>
+                    <td><a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}">{{ customer.name }}</a></td>
                 {% endif %}
             {% endfor %}
 
-            <td width="500px">{{ bid.description }}</td>
-            <td width="130px">{{ bid.timestamp.strftime('%x') }}</td>
+            <td>{{ bid.description }}</td>
+            <td>{{ bid.timestamp.strftime('%x') }}</td>
 
             {% for address in addresses %}
                 {% if bid.address_id == address.id %}
-                   <td width="220px"><a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+{{ address.state }}+{{ address.zip }}"
+                   <td><a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+{{ address.state }}+{{ address.zip }}"
                     target="_blank">{{ address.street }}, {{ address.city }}, {{ address.state }}</a></td>
                 {% endif %}
             {% endfor %}
@@ -196,7 +196,7 @@
 
             {% for customer in customers %}
                 {% if bid.customer_id == customer.id %}
-                    <td width="100px">{{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}</td>
+                    <td>{{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}</td>
                 {% endif %}
             {% endfor %}
           </tr>
