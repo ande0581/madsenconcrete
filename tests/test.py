@@ -70,7 +70,7 @@ class AllTests(unittest.TestCase):
         return self.app.post('bid_add/1/1/', data=dict(description="This is my bid description",
                                                        timestamp=datetime.datetime.now(pytz.timezone('US/Central')),
                                                        bid_customer_id=1, bid_address_id=1,
-                                                       scheduled_bid_date='5/1/2016', tentative_start=None,
+                                                       scheduled_bid_date='2016-05-01 09:30:00', tentative_start=None,
                                                        actual_start=None, completion_date=None,
                                                        status='Needs Bid'), follow_redirects=True)
 
@@ -432,8 +432,8 @@ class AllTests(unittest.TestCase):
         self.test_logged_in_can_add_everything()
         # Bid date format is wrong
         response = self.app.post('bid_add/1/1/', data=dict(description="This is my bid description",
-                                                           scheduled_bid_date="2-12-2016"), follow_redirects=True)
-        self.assertIn('Not a valid date value', response.data)
+                                                           scheduled_bid_date="2016-02-1"), follow_redirects=True)
+        self.assertIn('Not a valid datetime value', response.data)
 
     def test_form_EditBidForm_add(self):
         self.login(USERNAME, PASSWORD)
@@ -441,10 +441,10 @@ class AllTests(unittest.TestCase):
         # No description
         response = self.app.post('bid_edit/1/', data=dict(description="",
                                                           status="Needs Bid",
-                                                          scheduled_bid_date="1/2/2016",
-                                                          tentative_bid_date="5/1/2016",
-                                                          actual_start="5/1/2016",
-                                                          completion_date="5/5/2016"), follow_redirects=True)
+                                                          scheduled_bid_date="2016-01-02 09:30:30",
+                                                          tentative_bid_date="2016-05-01",
+                                                          actual_start="2016-05-01",
+                                                          completion_date="2016-05-05"), follow_redirects=True)
         self.assertIn('This field is required', response.data)
 
     def test_form_AddServiceForm_add(self):
@@ -510,10 +510,10 @@ class AllTests(unittest.TestCase):
         self.test_logged_in_can_add_everything()
         response = self.app.post('bid_edit/1/', data=dict(description="My Bid Description",
                                                           status="Needs Bid",
-                                                          scheduled_bid_date="1/2/2016",
-                                                          tentative_bid_date="5/1/2016",
-                                                          actual_start="5/1/2016",
-                                                          completion_date="5/5/2016"), follow_redirects=True)
+                                                          scheduled_bid_date="2016-01-02 16:00:00",
+                                                          tentative_bid_date="2016-05-01",
+                                                          actual_start="2016-05-01",
+                                                          completion_date="2016-05-05"), follow_redirects=True)
         self.assertIn('Bid was successfully edited', response.data)
 
     def test_form_AddServiceForm_edit(self):
@@ -558,6 +558,7 @@ class AllTests(unittest.TestCase):
         response = self.app.post('item_edit/1/', data=dict(quantity=62.5, serrvice_id="1"), follow_redirects=True)
         # The new total after editing the items should be (573.75 + (62.5 * 4.25)) = 839.38
         self.assertIn(b'839.38', response.data)
+
 
 if __name__ == "__main__":
     unittest.main()
