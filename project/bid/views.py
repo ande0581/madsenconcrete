@@ -113,6 +113,7 @@ def bid_edit(bid_edit_id):
             flash('Bid was successfully edited')
             return redirect(url_for('customer.customer_details', customer_id=bid.customer_id))
     return render_template('bid_form_edit.html',
+                           action="/bid_edit/" + str(bid_edit_id) + "/",
                            form=form,
                            address=query_bid_address(bid.address_id),
                            customer=query_one_customer(bid.customer_id),
