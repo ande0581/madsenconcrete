@@ -1,7 +1,7 @@
 {% extends "_base.html" %}
 
 {% block content %}
-<h4><strong>Customer Details:</strong></h4>
+<h4><strong>Customer Details</strong></h4>
  {{ customer.name }}<br>
  {{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}<br>
  {{ customer.email }}<br>
