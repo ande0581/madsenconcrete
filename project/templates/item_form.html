@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h4>Add Item to Bid</h4>
+<h4><strong>Add Item to Bid</strong></h4>
 <form class="form-signin" role="form" method="post" action="{{ action }}">
   {{ form.csrf_token }}
   {{ form.service_id(placeholder="enter quantity") }}
@@ -24,6 +24,6 @@
     </span>
 
      <button class="btn btn-sm btn-success" type="submit">Save</button>
-  </form>
+</form>
 
 {% endblock %}
