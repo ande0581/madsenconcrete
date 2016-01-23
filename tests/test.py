@@ -501,7 +501,7 @@ class AllTests(unittest.TestCase):
         # Quantity a string not a float
         response = self.app.post('item_add_custom/1/', data=dict(description="My custom item description",
                                                                  total="FiveHundred"), follow_redirects=True)
-        self.assertIn('This field is required', response.data)
+        self.assertIn('Not a valid float value', response.data)
 
     ###################
     # Test Pagination #
