@@ -79,6 +79,11 @@ class AllTests(unittest.TestCase):
                                                       description="This is my service description", quantity=135,
                                                       cost=4.25, total=573.75), follow_redirects=True)
 
+    def item_add_custom(self):
+        return self.app.post('item_add_custom/1/', data=dict(bid_id=1,
+                                                             description="This is my custom service description",
+                                                             total=678.90), follow_redirects=True)
+
     #########################
     # Test Login and Logout #
     #########################
@@ -188,6 +193,14 @@ class AllTests(unittest.TestCase):
         response = self.app.get('item_edit/1/', follow_redirects=True)
         self.assertIn(b'You need to login first', response.data)
 
+    def test_not_logged_in_cannot_access_item_add_custom(self):
+        response = self.app.get('item_add_custom/1/', follow_redirects=True)
+        self.assertIn(b'You need to login first', response.data)
+
+    def test_not_logged_in_cannot_access_item_edit_custom(self):
+        response = self.app.get('item_edit_custom/1/', follow_redirects=True)
+        self.assertIn(b'You need to login first', response.data)
+
     def test_not_logged_in_cannot_access_item_delete(self):
         response = self.app.get('item_delete/1/', follow_redirects=True)
         self.assertIn(b'You need to login first', response.data)
@@ -225,6 +238,9 @@ class AllTests(unittest.TestCase):
 
         response = self.item_add()
         self.assertIn(b'New item was successfully added', response.data)
+
+        response = self.item_add_custom()
+        self.assertIn(b'New custom item was successfully added', response.data)
 
     #################################
     # logged in can view everything #
@@ -345,6 +361,20 @@ class AllTests(unittest.TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertIn(b'This is my service description', response.data)
 
+    def test_logged_in_can_view_item_add_custom(self):
+        # create the database records
+        self.test_logged_in_can_add_everything()
+        response = self.app.get('item_add_custom/2/', follow_redirects=True)
+        self.assertEquals(response.status_code, 200)
+        self.assertIn(b'Add Custom Item to Bid', response.data)
+
+    def test_logged_in_can_view_item_edit_custom(self):
+        # create the database records
+        self.test_logged_in_can_add_everything()
+        response = self.app.get('item_edit_custom/2/', follow_redirects=True)
+        self.assertEquals(response.status_code, 200)
+        self.assertIn(b'This is my custom service description', response.data)
+
     def test_logged_in_can_view_customer_pagination(self):
         # can view customer's pagination page
         self.test_logged_in_can_add_everything()
@@ -391,6 +421,12 @@ class AllTests(unittest.TestCase):
         # create the database records
         self.test_logged_in_can_add_everything()
         response = self.app.get('item_delete/1/', follow_redirects=True)
+        self.assertIn(b'The item was deleted', response.data)
+
+    def test_logged_in_can_delete_item_custom(self):
+        # create the database records
+        self.test_logged_in_can_add_everything()
+        response = self.app.get('item_delete/2/', follow_redirects=True)
         self.assertIn(b'The item was deleted', response.data)
 
     ####################################
@@ -458,6 +494,13 @@ class AllTests(unittest.TestCase):
         self.login(USERNAME, PASSWORD)
         # Quantity a string not a float
         response = self.app.post('item_add/1/', data=dict(quantity="1.5", serrvice_id="1"), follow_redirects=True)
+        self.assertIn('This field is required', response.data)
+
+    def test_form_AddBidCustomItemForm_add(self):
+        self.login(USERNAME, PASSWORD)
+        # Quantity a string not a float
+        response = self.app.post('item_add_custom/1/', data=dict(description="My custom item description",
+                                                                 total="FiveHundred"), follow_redirects=True)
         self.assertIn('This field is required', response.data)
 
     ###################
@@ -530,6 +573,13 @@ class AllTests(unittest.TestCase):
         response = self.app.post('item_edit/1/', data=dict(quantity=62.5, serrvice_id="1"), follow_redirects=True)
         self.assertIn('265.62', response.data)
 
+    def test_form_AddCustomBidItemForm_edit(self):
+        self.login(USERNAME, PASSWORD)
+        self.test_logged_in_can_add_everything()
+        # Change total from 678.90 to 456.78
+        response = self.app.post('item_edit_custom/2/', data=dict(total=456.78), follow_redirects=True)
+        self.assertIn('456.78', response.data)
+
     #########################
     # Test Math On Bid Page #
     #########################
@@ -538,27 +588,41 @@ class AllTests(unittest.TestCase):
         self.login(USERNAME, PASSWORD)
         self.test_logged_in_can_add_everything()
         response = self.app.get('bid_edit/1/', follow_redirects=True)
-        # The total for one row should be 573.75
-        self.assertIn(b'573.75', response.data)
-        self.item_add()
+        # The total for one regular item (573.75) and one custom item (678.90) should be 1252.65
+        self.assertIn(b'1252.65', response.data)
+        self.item_add()  # add another standard item 573.75
         response = self.app.get('bid_edit/1/', follow_redirects=True)
-        # The total for two rows should be 1147.50
-        self.assertIn(b'1147.50', response.data)
+        # The total for three rows should be (2 standard items, one customer item) 1826.40
+        self.assertIn(b'1826.40', response.data)
 
     def test_sum_items_on_bid_with_edit(self):
         self.login(USERNAME, PASSWORD)
         self.test_logged_in_can_add_everything()
         response = self.app.get('bid_edit/1/', follow_redirects=True)
-        # The total for one row should be 573.75
-        self.assertIn(b'573.75', response.data)
-        self.item_add()
+        # The total for one regular item (573.75) and one custom item (678.90) should be 1252.65
+        self.assertIn(b'1252.65', response.data)
+        self.item_add()  # add another standard item 573.75
         response = self.app.get('bid_edit/1/', follow_redirects=True)
-        # The total for two rows should be 1147.50
-        self.assertIn(b'1147.50', response.data)
-        response = self.app.post('item_edit/1/', data=dict(quantity=62.5, serrvice_id="1"), follow_redirects=True)
-        # The new total after editing the items should be (573.75 + (62.5 * 4.25)) = 839.38
-        self.assertIn(b'839.38', response.data)
+        # The total for three rows should be (2 standard items, one customer item) 1826.40
+        self.assertIn(b'1826.40', response.data)
+        response = self.app.post('item_edit/1/', data=dict(quantity=62, service_id="1"), follow_redirects=True)
+        # The new total is (edited item1 62*4.25 = 263.5) + (item2 573.75) + (custom item3 678.90) = 1516.15
+        self.assertIn(b'1516.15', response.data)
 
+    def test_sum_items_on_bid_with_edit_custom_item(self):
+        self.login(USERNAME, PASSWORD)
+        self.test_logged_in_can_add_everything()
+        response = self.app.get('bid_edit/1/', follow_redirects=True)
+        # The total for one regular item (573.75) and one custom item (678.90) should be 1252.65
+        self.assertIn(b'1252.65', response.data)
+        self.item_add()  # add another standard item 573.75
+        response = self.app.get('bid_edit/1/', follow_redirects=True)
+        # The total for three rows should be (2 standard items, one customer item) 1826.40
+        self.assertIn(b'1826.40', response.data)
+        response = self.app.post('item_edit_custom/2/', data=dict(description="my customer item edit", total=500),
+                                 follow_redirects=True)
+        # The new total is (item1 573.75) + (item2 573.75) + (custom item3 500) = 1647.50
+        self.assertIn(b'1647.50', response.data)
 
 if __name__ == "__main__":
     unittest.main()
