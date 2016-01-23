@@ -1,0 +1,81 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<h4><strong>Calculate Slab</strong></h4>
+<form class="form-signin" role="form" method="post" action="{{ action }}">
+  {{ form.csrf_token }}
+<table>
+    <tr>
+        <td width="200px">Thickness Inches</td>
+        <td>{{ form.slab_thickness() }}
+            <span class="error">
+              {% if form.slab_thickness.errors %}
+                {% for error in form.slab_thickness.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
+
+    <tr>
+        <td width="200px">Width Feet</td>
+        <td>{{ form.slab_width() }}
+            <span class="error">
+              {% if form.slab_width.errors %}
+                {% for error in form.slab_width.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
+
+    <tr>
+        <td width="200px">Length Feet</td>
+        <td>{{ form.slab_length() }}
+            <span class="error">
+              {% if form.slab_length.errors %}
+                {% for error in form.slab_length.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
+
+    <tr>
+        <td width="200px" style="padding-top: 1em"><strong>Cubic Yards</strong></td>
+        <td style="padding-top: 1em">
+            {% if form.slab_thickness.data and form.slab_width.data and form.slab_length.data %}
+                {{ "{0:0.2f}".format(((form.slab_thickness.data /12) * form.slab_width.data * form.slab_length.data)/27) }}
+            {% endif %}
+        </td>
+    </tr>
+
+    <tr>
+        <td width="200px"><strong>80lb Bags</strong></td>
+        <td>
+            {% if form.slab_thickness.data and form.slab_width.data and form.slab_length.data %}
+                {{ "{0:0.2f}".format(((form.slab_thickness.data /12) * form.slab_width.data * form.slab_length.data) / 0.6) }}
+            {% endif %}
+        </td>
+    </tr>
+
+        <tr>
+        <td width="200px"><strong>60lb Bags</strong></td>
+        <td>
+            {% if form.slab_thickness.data and form.slab_width.data and form.slab_length.data %}
+                {{ "{0:0.2f}".format(((form.slab_thickness.data /12) * form.slab_width.data * form.slab_length.data) / 0.45) }}
+            {% endif %}
+        </td>
+    </tr>
+
+</table>
+
+    <br>
+    <br>
+     <button class="btn btn-sm btn-success" type="submit">Calculate</button>
+</form>
+
+{% endblock %}
