@@ -59,8 +59,6 @@
       <thead>
         <tr>
           <th width="50px"><strong>Description</strong></th>
-          <th width="75px"style="text-align: center;"><strong>Quantity</strong></th>
-          <th width="30px" style="text-align: center;"><strong>Cost</strong></th>
           <th width="30px" style="text-align: right;"><strong>Total</strong></th>
         </tr>
       </thead>
@@ -69,8 +67,6 @@
         {% for item in items %}
             <tr>
               <td width="75px">{{ item.description }}</td>
-              <td width="30px" style="text-align: center;">{{ "{0:0.1f}".format(item.quantity) }}</td>
-              <td width="30px" style="text-align: center;">{{ "{0:0.2f}".format(item.cost) }}</td>
               <td width="30px" style="text-align: right;">{{ "{0:0.2f}".format(item.total) }}</td>
             </tr>
         {% endfor %}
@@ -78,8 +74,6 @@
        <thead>
         <tr>
           <th width="75px"><strong>Total</strong></th>
-          <th width="30px"><strong></strong></th>
-          <th width="30px"><strong></strong></th>
           <th width="30px" style="text-align: right;"><strong>{{ "${0:0.2f}".format(sum_of_items[0]) }}</strong></th>
         </tr>
       </thead>
