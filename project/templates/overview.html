@@ -23,7 +23,9 @@
                 {% endif %}
             {% endfor %}
 
-            <td>{{ bid.description }}</td>
+            <td><a href="{{ url_for('bid.bid_edit', bid_edit_id=bid.id) }}">{{ bid.description }}</a></td>
+
+
             {% if bid.scheduled_bid_date is not none: %}
                 <td>{{ bid.scheduled_bid_date.strftime('%x %I:%M %p') }}</td>
             {% else: %}
@@ -76,7 +78,7 @@
                 {% endif %}
             {% endfor %}
 
-            <td>{{ bid.description }}</td>
+            <td><a href="{{ url_for('bid.bid_edit', bid_edit_id=bid.id) }}">{{ bid.description }}</a></td>
 
             {% if bid.actual_start is not none: %}
                 <td>{{ bid.actual_start.strftime('%x') }}</td>
@@ -129,7 +131,7 @@
                 {% endif %}
             {% endfor %}
 
-            <td>{{ bid.description }}</td>
+            <td><a href="{{ url_for('bid.bid_edit', bid_edit_id=bid.id) }}">{{ bid.description }}</a></td>
 
             {% if bid.tentative_start is not none: %}
                 <td>{{ bid.tentative_start.strftime('%x') }}</td>
@@ -183,7 +185,7 @@
                 {% endif %}
             {% endfor %}
 
-            <td>{{ bid.description }}</td>
+            <td><a href="{{ url_for('bid.bid_edit', bid_edit_id=bid.id) }}">{{ bid.description }}</a></td>
             <td>{{ bid.timestamp.strftime('%x') }}</td>
 
             {% for address in addresses %}
