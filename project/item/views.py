@@ -3,7 +3,7 @@
 from functools import wraps
 from flask import flash, redirect, render_template, request, session, url_for, Blueprint
 
-from .forms import AddBidItemForm
+from .forms import AddBidItemForm, AddCustomBidItemForm
 from project import db
 from project.models import BidItem, Service
 
@@ -54,7 +54,7 @@ def query_one_service(service_id):
 ##########
 
 
-# Add New Item
+# Add New Standard Item
 @item_blueprint.route('/item_add/<int:bid_id>/', methods=['GET', 'POST'])
 @login_required
 def item_add(bid_id):
@@ -83,6 +83,33 @@ def item_add(bid_id):
                            )
 
 
+# Add New Custom Item
+@item_blueprint.route('/item_add_custom/<int:bid_id>/', methods=['GET', 'POST'])
+@login_required
+def item_add_custom(bid_id):
+    error = None
+    form = AddCustomBidItemForm(request.form)
+    if request.method == "POST":
+        if form.validate_on_submit():
+            add_item = BidItem(
+                bid_id,
+                None,
+                form.description.data,
+                None,
+                None,
+                form.total.data
+            )
+            db.session.add(add_item)
+            db.session.commit()
+            flash('New custom item was successfully added')
+            return redirect(url_for('bid.bid_edit', bid_edit_id=bid_id))
+    return render_template('item_form_custom.html',
+                           action="/item_add_custom/" + str(bid_id) + "/",
+                           form=form,
+                           error=error,
+                           )
+
+
 # Edit Item on Bid
 @item_blueprint.route('/item_edit/<int:item_edit_id>/', methods=['GET', 'POST'])
 @login_required
@@ -103,6 +130,25 @@ def item_edit(item_edit_id):
             flash('Item was successfully edited')
             return redirect(url_for('bid.bid_edit', bid_edit_id=item.bid_id))
     return render_template('item_form.html',
+                           form=form,
+                           error=error)
+
+
+# Edit Custom Item on Bid
+@item_blueprint.route('/item_edit_custom/<int:item_edit_id>/', methods=['GET', 'POST'])
+@login_required
+def item_edit_custom(item_edit_id):
+    error = None
+    item = BidItem.query.get(item_edit_id)
+    form = AddCustomBidItemForm(obj=item)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            item.description = form.description.data
+            item.total = form.total.data
+            db.session.commit()
+            flash('Custom item was successfully edited')
+            return redirect(url_for('bid.bid_edit', bid_edit_id=item.bid_id))
+    return render_template('item_form_custom.html',
                            form=form,
                            error=error)
 
