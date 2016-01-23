@@ -5,7 +5,7 @@ import pytz  # used to configure local timezones
 import datetime
 from functools import wraps
 from flask import flash, redirect, render_template, request, session, url_for, Blueprint
-from .forms import CalculateSlab
+from .forms import CalculatorForm
 
 
 
@@ -46,5 +46,7 @@ def flash_errors(form):
 @login_required
 def calculator():
     error = None
-    form = CalculateSlab(request.form)
-    return render_template('calculator.html', form=form, error=error)
+    form = CalculatorForm(request.form)
+    return render_template('calculator.html',
+                           action="/calculator/",
+                           form=form, error=error)
