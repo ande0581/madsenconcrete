@@ -48,7 +48,12 @@
 
 <div>
     Tentative Start Date:
-    <input type="text" name="tentative_start" id="tentative_start" value="{{ form.tentative_start.data }}">
+    <!-- dont show date value (None) in the form field, on submit the form validation will fail -->
+    {% if form.tentative_start.data %}
+        <input type="text" name="tentative_start" id="tentative_start" value="{{ form.tentative_start.data }}">
+    {% else %}
+        <input type="text" name="tentative_start" id="tentative_start" value="">
+    {% endif %}
 </div>
     <span class="error">
       {% if form.tentative_start.errors %}
@@ -61,7 +66,12 @@
 
 <div>
     Actual Start Date:
-    <input type="text" name="actual_start" id="actual_start" value="{{ form.actual_start.data }}">
+    <!-- dont show date value (None) in the form field, on submit the form validation will fail -->
+    {% if form.actual_start.data %}
+        <input type="text" name="actual_start" id="actual_start" value="{{ form.actual_start.data }}">
+    {% else %}
+        <input type="text" name="actual_start" id="actual_start" value="">
+    {% endif %}
 </div>
     <span class="error">
       {% if form.actual_start.errors %}
@@ -74,7 +84,12 @@
 
 <div>
     Completion Date:
-    <input type="text" name="completion_date" id="completion_date" value="{{ form.completion_date.data }}">
+    <!-- dont show date value (None) in the form field, on submit the form validation will fail -->
+    {% if form.completion_date.data %}
+        <input type="text" name="completion_date" id="completion_date" value="{{ form.completion_date.data }}">
+    {% else %}
+        <input type="text" name="completion_date" id="completion_date" value="">
+    {% endif %}
 </div>
     <span class="error">
       {% if form.completion_date.errors %}
