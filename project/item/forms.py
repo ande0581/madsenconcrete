@@ -2,7 +2,7 @@
 
 
 from flask_wtf import Form
-from wtforms import SelectField, FloatField
+from wtforms import SelectField, FloatField, StringField
 from wtforms.validators import DataRequired
 
 
@@ -13,3 +13,8 @@ class AddBidItemForm(Form):
         coerce=int,
         validators=[DataRequired()],
         choices=[])
+
+
+class AddCustomBidItemForm(Form):
+    total = FloatField('total', validators=[DataRequired()])
+    description = StringField('customer description', validators=[DataRequired()])
