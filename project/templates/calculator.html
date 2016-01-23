@@ -1,7 +1,7 @@
 {% extends "_base.html" %}
 
 {% block content %}
-<h4><strong>Calculate Slab</strong></h4>
+<h4><strong>Calculate Slab, Square Footings, or Walls</strong></h4>
 <form class="form-signin" role="form" method="post" action="{{ action }}">
   {{ form.csrf_token }}
 <table>
@@ -45,10 +45,23 @@
     </tr>
 
     <tr>
+        <td width="200px">Quantity</td>
+        <td>{{ form.slab_quantity() }}
+            <span class="error">
+              {% if form.slab_quantity.errors %}
+                {% for error in form.slab_quantity.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
+
+    <tr>
         <td width="200px" style="padding-top: 1em"><strong>Cubic Yards</strong></td>
         <td style="padding-top: 1em">
-            {% if form.slab_thickness.data and form.slab_width.data and form.slab_length.data %}
-                {{ "{0:0.2f}".format(((form.slab_thickness.data /12) * form.slab_width.data * form.slab_length.data)/27) }}
+            {% if form.slab_thickness.data and form.slab_width.data and form.slab_length.data and form.slab_quantity.data %}
+                {{ "{0:0.2f}".format((((form.slab_thickness.data /12) * form.slab_width.data * form.slab_length.data)/27) * form.slab_quantity.data) }}
             {% endif %}
         </td>
     </tr>
@@ -56,8 +69,8 @@
     <tr>
         <td width="200px"><strong>80lb Bags</strong></td>
         <td>
-            {% if form.slab_thickness.data and form.slab_width.data and form.slab_length.data %}
-                {{ "{0:0.2f}".format(((form.slab_thickness.data /12) * form.slab_width.data * form.slab_length.data) / 0.6) }}
+            {% if form.slab_thickness.data and form.slab_width.data and form.slab_length.data and form.slab_quantity.data %}
+                {{ "{0:0.2f}".format((((form.slab_thickness.data /12) * form.slab_width.data * form.slab_length.data) / 0.6) * form.slab_quantity.data) }}
             {% endif %}
         </td>
     </tr>
@@ -65,8 +78,79 @@
         <tr>
         <td width="200px"><strong>60lb Bags</strong></td>
         <td>
-            {% if form.slab_thickness.data and form.slab_width.data and form.slab_length.data %}
-                {{ "{0:0.2f}".format(((form.slab_thickness.data /12) * form.slab_width.data * form.slab_length.data) / 0.45) }}
+            {% if form.slab_thickness.data and form.slab_width.data and form.slab_length.data and form.slab_quantity.data %}
+                {{ "{0:0.2f}".format((((form.slab_thickness.data /12) * form.slab_width.data * form.slab_length.data) / 0.45)* form.slab_quantity.data) }}
+            {% endif %}
+        </td>
+    </tr>
+
+</table>
+
+<br>
+<h4><strong>Calculate Hole, Column or Round Footings</strong></h4>
+<table>
+    <tr>
+        <td width="200px">Diameter Inches</td>
+        <td>{{ form.round_diameter() }}
+            <span class="error">
+              {% if form.round_diameter.errors %}
+                {% for error in form.round_diameter.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
+
+    <tr>
+        <td width="200px">Depth or Height Inches</td>
+        <td>{{ form.round_depth() }}
+            <span class="error">
+              {% if form.round_depth.errors %}
+                {% for error in form.round_depth.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
+
+    <tr>
+        <td width="200px">Quantity</td>
+        <td>{{ form.round_quantity() }}
+            <span class="error">
+              {% if form.round_quantity.errors %}
+                {% for error in form.round_quantity.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
+
+    <tr>
+        <td width="200px" style="padding-top: 1em"><strong>Cubic Yards</strong></td>
+        <td style="padding-top: 1em">
+            {% if form.round_diameter.data and form.round_depth.data and form.round_quantity.data %}
+                {{ "{0:0.2f}".format((((3.14156 * ((form.round_diameter.data /12) /2)**2 * (form.round_depth.data /12)) * form.round_quantity.data) /27)) }}
+            {% endif %}
+        </td>
+    </tr>
+
+    <tr>
+        <td width="200px"><strong>80lb Bags</strong></td>
+        <td>
+            {% if form.round_diameter.data and form.round_depth.data and form.round_quantity.data %}
+                {{ "{0:0.2f}".format((((3.14156 * ((form.round_diameter.data /12) /2)**2 * (form.round_depth.data /12)) * form.round_quantity.data) /0.6)) }}
+            {% endif %}
+        </td>
+    </tr>
+
+        <tr>
+        <td width="200px"><strong>60lb Bags</strong></td>
+        <td>
+            {% if form.round_diameter.data and form.round_depth.data and form.round_quantity.data %}
+                {{ "{0:0.2f}".format((((3.14156 * ((form.round_diameter.data /12) /2)**2 * (form.round_depth.data /12)) * form.round_quantity.data) /0.45)) }}
             {% endif %}
         </td>
     </tr>
