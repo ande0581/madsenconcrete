@@ -66,7 +66,7 @@
   {% if sum_of_items[0] is not none: %}
         {% for item in items %}
             <tr>
-              <td width="75px">{{ item.description }}</td>
+              <td width="75px">{{ item.description | scrub_description }}</td>
               <td width="30px" style="text-align: right;">{{ "{0:0.2f}".format(item.total) }}</td>
             </tr>
         {% endfor %}
