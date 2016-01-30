@@ -162,7 +162,11 @@
 
     <tr>
         <td width="200px">Remaining Balance</td>
-        <td style="color: red">{{ "${0:0.2f}".format(sum_of_items[0] - payment_balance) }}</td>
+        {% if sum_of_items[0] is not none: %}
+            <td style="color: red">{{ "${0:0.2f}".format(sum_of_items[0] - payment_balance) }}</td>
+        {% else %}
+            <td style="color: red">{{ "${0:0.2f}".format(0) }}
+        {% endif %}
     </tr>
 </table>
 
@@ -212,7 +216,11 @@
                     <td width="30px"></td>
               {% endif %}
 
-              <td width="30px">{{ "{0:0.2f}".format(item.total) }}</td>
+              {% if item.total %}
+                    <td width="30px">{{ "{0:0.2f}".format(item.total) }}</td>
+              {% else %}
+                    <td width="30px"></td>
+              {% endif %}
             </tr>
         {% endfor %}
 
