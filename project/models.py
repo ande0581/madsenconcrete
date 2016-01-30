@@ -72,6 +72,7 @@ class Bid(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String)
+    notes = db.Column(db.String)
     timestamp = db.Column(db.DateTime)
     customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
     address_id = db.Column(db.Integer, db.ForeignKey('address.id'))
@@ -79,11 +80,17 @@ class Bid(db.Model):
     tentative_start = db.Column(db.Date)
     actual_start = db.Column(db.Date)
     completion_date = db.Column(db.Date)
+    down_payment_amount = db.Column(db.Float)
+    down_payment_date = db.Column(db.Date)
+    paid_in_full_amount = db.Column(db.Float)
+    paid_in_full_date = db.Column(db.Date)
     status = db.Column(db.String)
 
-    def __init__(self, description, timestamp, customer_id, address_id, scheduled_bid_date, tentative_start,
-                 actual_start, completion_date, status):
+    def __init__(self, description, notes, timestamp, customer_id, address_id, scheduled_bid_date, tentative_start,
+                 actual_start, completion_date, down_payment_amount, down_payment_date, paid_in_full_amount,
+                 paid_in_full_date, status):
         self.description = description
+        self.notes = notes
         self.timestamp = timestamp
         self.customer_id = customer_id
         self.address_id = address_id
@@ -91,6 +98,10 @@ class Bid(db.Model):
         self.tentative_start = tentative_start
         self.actual_start = actual_start
         self.completion_date = completion_date
+        self.down_payment_amount = down_payment_amount
+        self.down_payment_date = down_payment_date
+        self.paid_in_full_amount = paid_in_full_amount
+        self.paid_in_full_date = paid_in_full_date
         self.status = status
 
     def __repr__(self):
