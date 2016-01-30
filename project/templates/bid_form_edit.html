@@ -9,7 +9,8 @@
 <form class="form-signin" role="form" method="post" action="{{ action }}">
   {{ form.csrf_token }}
 
-  <h4><strong>Description</strong></h4>
+<br>
+  <strong>Job Description</strong><br>
   {{ form.description(cols="100", rows="2") }}
   <span class="error">
       {% if form.description.errors %}
@@ -20,84 +21,151 @@
     </span>
 <br>
 
-      Bid Status: {{ form.status() }}<br>
-    <span class="error">
-      {% if form.status.errors %}
-        {% for error in form.status.errors %}
+  <strong>Notes</strong><br>
+  {{ form.notes(cols="100", rows="2") }}
+  <span class="error">
+      {% if form.notes.errors %}
+        {% for error in form.notes.errors %}
           {{ error }}
         {% endfor %}
       {% endif %}
     </span>
 
 
+<table style="font-size: 1em">
+    <tr>
+        <td width="200px">Bid Status</td>
+        <td>{{ form.status() }}
+            <span class="error">
+              {% if form.status.errors %}
+                {% for error in form.status.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
 
-<div>
-    Scheduled Bid Date:
-        <input type="text" name="scheduled_bid_date" id="scheduled_bid_date" value="{{ form.scheduled_bid_date.data }}">
-</div>
+    <tr>
+        <td width="200px">Scheduled Bid Date</td>
+        <td>
+            <input type="text" name="scheduled_bid_date" id="scheduled_bid_date" value="{{ form.scheduled_bid_date.data }}">
+            <span class="error">
+              {% if form.scheduled_bid_date.errors %}
+                {% for error in form.scheduled_bid_date.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
 
+    <tr>
+        <td width="200px">Tentative Start Date</td>
+        <td>
+            <!-- dont show date value (None) in the form field, on submit the form validation will fail -->
+            {% if form.tentative_start.data %}
+                <input type="text" name="tentative_start" id="tentative_start" value="{{ form.tentative_start.data }}">
+            {% else %}
+                <input type="text" name="tentative_start" id="tentative_start" value="">
+            {% endif %}
+            <span class="error">
+              {% if form.tentative_start.errors %}
+                {% for error in form.tentative_start.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
 
-    <span class="error">
-      {% if form.scheduled_bid_date.errors %}
-        {% for error in form.scheduled_bid_date.errors %}
-          {{ error }}
-        {% endfor %}
-      {% endif %}
-    </span>
+    <tr>
+        <td width="200px">Actual Start Date</td>
+        <td>
+            <!-- dont show date value (None) in the form field, on submit the form validation will fail -->
+            {% if form.actual_start.data %}
+                <input type="text" name="actual_start" id="actual_start" value="{{ form.actual_start.data }}">
+            {% else %}
+                <input type="text" name="actual_start" id="actual_start" value="">
+            {% endif %}
+            <span class="error">
+              {% if form.actual_start.errors %}
+                {% for error in form.actual_start.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
 
+    <tr>
+        <td width="200px">Completion Date</td>
+        <td>
+            <!-- dont show date value (None) in the form field, on submit the form validation will fail -->
+            {% if form.completion_date.data %}
+                <input type="text" name="completion_date" id="completion_date" value="{{ form.completion_date.data }}">
+            {% else %}
+                <input type="text" name="completion_date" id="completion_date" value="">
+            {% endif %}
+            <span class="error">
+              {% if form.completion_date.errors %}
+                {% for error in form.completion_date.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
+</table>
 
-<div>
-    Tentative Start Date:
-    <!-- dont show date value (None) in the form field, on submit the form validation will fail -->
-    {% if form.tentative_start.data %}
-        <input type="text" name="tentative_start" id="tentative_start" value="{{ form.tentative_start.data }}">
-    {% else %}
-        <input type="text" name="tentative_start" id="tentative_start" value="">
-    {% endif %}
-</div>
-    <span class="error">
-      {% if form.tentative_start.errors %}
-        {% for error in form.tentative_start.errors %}
-          {{ error }}
-        {% endfor %}
-      {% endif %}
-    </span>
+<br>
+<table style="font-size: 1em">
+    <tr>
+        <td width="200px">Down Payment Date</td>
+        <td>
+            <!-- dont show date value (None) in the form field, on submit the form validation will fail -->
+            {% if form.down_payment_date.data %}
+                <input type="text" name="down_payment_date" id="down_payment_date" value="{{ form.down_payment_date.data }}">
+            {% else %}
+                <input type="text" name="down_payment_date" id="down_payment_date" value="">
+            {% endif %}
+            <span class="error">
+              {% if form.down_payment_date.errors %}
+                {% for error in form.down_payment_date.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+        <td style="padding-left:2em">${{ form.down_payment_amount(placeholder="Amount Down") }}</td>
+    </tr>
 
+    <tr>
+        <td width="200px">Paid in Full Date</td>
+        <td>
+            <!-- dont show date value (None) in the form field, on submit the form validation will fail -->
+            {% if form.paid_in_full_date.data %}
+                <input type="text" name="paid_in_full_date" id="paid_in_full_date" value="{{ form.paid_in_full_date.data }}">
+            {% else %}
+                <input type="text" name="paid_in_full_date" id="paid_in_full_date" value="">
+            {% endif %}
+            <span class="error">
+              {% if form.paid_in_full_date.errors %}
+                {% for error in form.paid_in_full_date.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+        <td style="padding-left:2em">${{ form.paid_in_full_amount(placeholder="Total Paid") }}</td>
+    </tr>
 
-<div>
-    Actual Start Date:
-    <!-- dont show date value (None) in the form field, on submit the form validation will fail -->
-    {% if form.actual_start.data %}
-        <input type="text" name="actual_start" id="actual_start" value="{{ form.actual_start.data }}">
-    {% else %}
-        <input type="text" name="actual_start" id="actual_start" value="">
-    {% endif %}
-</div>
-    <span class="error">
-      {% if form.actual_start.errors %}
-        {% for error in form.actual_start.errors %}
-          {{ error }}
-        {% endfor %}
-      {% endif %}
-    </span>
+    <tr>
+        <td width="200px">Remaining Balance</td>
+        <td style="color: red">{{ "${0:0.2f}".format(sum_of_items[0] - payment_balance) }}</td>
+    </tr>
+</table>
 
-
-<div>
-    Completion Date:
-    <!-- dont show date value (None) in the form field, on submit the form validation will fail -->
-    {% if form.completion_date.data %}
-        <input type="text" name="completion_date" id="completion_date" value="{{ form.completion_date.data }}">
-    {% else %}
-        <input type="text" name="completion_date" id="completion_date" value="">
-    {% endif %}
-</div>
-    <span class="error">
-      {% if form.completion_date.errors %}
-        {% for error in form.completion_date.errors %}
-          {{ error }}
-        {% endfor %}
-      {% endif %}
-    </span>
 
 <br>
 <div class="entries">
@@ -168,6 +236,8 @@
     <button class="btn btn-sm btn-success" type="submit">Save</button>
     <a href="{{ url_for('bid.bid_create_pdf', bid_id_pdf=bid_id) }}" target="_blank" class="btn btn-sm btn-info"
        role="button">Create PDF</a>
+    <a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}" class="btn btn-sm btn-primary"
+       role="button">Return to Customer</a>
 </form>
 
 {% endblock %}
