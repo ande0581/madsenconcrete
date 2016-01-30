@@ -59,6 +59,16 @@ def query_bid(bid_id):
     return db.session.query(Bid).filter_by(id=bid_id).first()
 
 
+def query_payment_balance(bid_id):
+    customer_bid = db.session.query(Bid).filter_by(id=bid_id).first()
+    if customer_bid.paid_in_full_amount:
+        return customer_bid.paid_in_full_amount
+    elif customer_bid.down_payment_amount:
+        return customer_bid.down_payment_amount
+    else:
+        return 0
+
+
 ##########
 # Routes #
 ##########
@@ -72,15 +82,20 @@ def bid_add(bid_customer_id, bid_address_id):
     if request.method == 'POST':
         if form.validate_on_submit():
             add_bid = Bid(
-                form.description.data,
-                datetime.datetime.now(pytz.timezone('US/Central')),
-                bid_customer_id,
-                bid_address_id,
-                form.scheduled_bid_date.data,
-                None,
-                None,
-                None,
-                'Needs Bid'
+                description=form.description.data,
+                notes=None,
+                timestamp=datetime.datetime.now(pytz.timezone('US/Central')),
+                customer_id=bid_customer_id,
+                address_id=bid_address_id,
+                scheduled_bid_date=form.scheduled_bid_date.data,
+                tentative_start=None,
+                actual_start=None,
+                completion_date=None,
+                down_payment_amount=None,
+                down_payment_date=None,
+                paid_in_full_amount=None,
+                paid_in_full_date=None,
+                status='Needs Bid'
             )
             db.session.add(add_bid)
             db.session.commit()
@@ -104,14 +119,19 @@ def bid_edit(bid_edit_id):
     if request.method == 'POST':
         if form.validate_on_submit():
             bid.description = form.description.data
+            bid.notes = form.notes.data
             bid.status = form.status.data
             bid.scheduled_bid_date = form.scheduled_bid_date.data
             bid.tentative_start = form.tentative_start.data
             bid.actual_start = form.actual_start.data
             bid.completion_date = form.completion_date.data
+            bid.down_payment_date = form.down_payment_date.data
+            bid.down_payment_amount = form.down_payment_amount.data
+            bid.paid_in_full_date = form.paid_in_full_date.data
+            bid.paid_in_full_amount = form.paid_in_full_amount.data
             db.session.commit()
             flash('Bid was successfully edited')
-            return redirect(url_for('customer.customer_details', customer_id=bid.customer_id))
+            #return redirect(url_for('customer.customer_details', customer_id=bid.customer_id))
     return render_template('bid_form_edit.html',
                            action="/bid_edit/" + str(bid_edit_id) + "/",
                            form=form,
@@ -120,6 +140,7 @@ def bid_edit(bid_edit_id):
                            items=query_one_bid_items(bid_edit_id),
                            sum_of_items=sum_all_items_one_bid(bid_edit_id),
                            bid_id=bid.id,
+                           payment_balance=query_payment_balance(bid_edit_id),
                            error=error)
 
 
