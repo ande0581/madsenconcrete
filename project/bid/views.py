@@ -59,8 +59,8 @@ def query_bid(bid_id):
     return db.session.query(Bid).filter_by(id=bid_id).first()
 
 
-def query_payment_balance(bid_id):
-    customer_bid = db.session.query(Bid).filter_by(id=bid_id).first()
+def query_payment_balance(bid_id_payment):
+    customer_bid = db.session.query(Bid).filter_by(id=bid_id_payment).first()
     if customer_bid.paid_in_full_amount:
         return customer_bid.paid_in_full_amount
     elif customer_bid.down_payment_amount:
@@ -131,7 +131,6 @@ def bid_edit(bid_edit_id):
             bid.paid_in_full_amount = form.paid_in_full_amount.data
             db.session.commit()
             flash('Bid was successfully edited')
-            #return redirect(url_for('customer.customer_details', customer_id=bid.customer_id))
     return render_template('bid_form_edit.html',
                            action="/bid_edit/" + str(bid_edit_id) + "/",
                            form=form,
