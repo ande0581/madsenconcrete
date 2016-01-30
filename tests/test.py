@@ -68,10 +68,15 @@ class AllTests(unittest.TestCase):
 
     def bid_add(self):
         return self.app.post('bid_add/1/1/', data=dict(description="This is my bid description",
+                                                       notes="These are my notes",
                                                        timestamp=datetime.datetime.now(pytz.timezone('US/Central')),
                                                        bid_customer_id=1, bid_address_id=1,
                                                        scheduled_bid_date='2016-05-01 09:30:00', tentative_start=None,
                                                        actual_start=None, completion_date=None,
+                                                       down_payment_amount=555.55,
+                                                       down_payment_date="2016-05-20",
+                                                       paid_in_full_amount=0,
+                                                       paid_in_full_date=None,
                                                        status='Needs Bid'), follow_redirects=True)
 
     def item_add(self):
