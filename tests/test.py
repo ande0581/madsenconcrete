@@ -68,14 +68,17 @@ class AllTests(unittest.TestCase):
 
     def bid_add(self):
         return self.app.post('bid_add/1/1/', data=dict(description="This is my bid description",
-                                                       notes="These are my notes",
+                                                       notes=None,
                                                        timestamp=datetime.datetime.now(pytz.timezone('US/Central')),
-                                                       bid_customer_id=1, bid_address_id=1,
-                                                       scheduled_bid_date='2016-05-01 09:30:00', tentative_start=None,
-                                                       actual_start=None, completion_date=None,
-                                                       down_payment_amount=555.55,
-                                                       down_payment_date="2016-05-20",
-                                                       paid_in_full_amount=0,
+                                                       customer_id=1,
+                                                       address_id=1,
+                                                       scheduled_bid_date="2016-05-01 09:30:00",
+                                                       tentative_start=None,
+                                                       actual_start=None,
+                                                       completion_date=None,
+                                                       down_payment_amount=None,
+                                                       down_payment_date=None,
+                                                       paid_in_full_amount=None,
                                                        paid_in_full_date=None,
                                                        status='Needs Bid'), follow_redirects=True)
 
@@ -88,6 +91,7 @@ class AllTests(unittest.TestCase):
         return self.app.post('item_add_custom/1/', data=dict(bid_id=1,
                                                              description="This is my custom service description",
                                                              total=678.90), follow_redirects=True)
+
 
     #########################
     # Test Login and Logout #
@@ -216,6 +220,10 @@ class AllTests(unittest.TestCase):
 
     def test_not_logged_in_cannot_access_customers_page_1(self):
         response = self.app.get('customers/page/1/', follow_redirects=True)
+        self.assertIn(b'You need to login first', response.data)
+
+    def test_not_logged_in_cannot_access_calculator(self):
+        response = self.app.get('calculator/', follow_redirects=True)
         self.assertIn(b'You need to login first', response.data)
 
     ################################
@@ -386,6 +394,13 @@ class AllTests(unittest.TestCase):
         response = self.app.get('customers/page/1/', follow_redirects=True)
         self.assertEquals(response.status_code, 200)
         self.assertIn(b'Beta Company', response.data)
+
+    def test_logged_in_can_view_calculator(self):
+        # can view calculator page
+        self.test_logged_in_can_add_everything()
+        response = self.app.get('calculator', follow_redirects=True)
+        self.assertEquals(response.status_code, 200)
+        self.assertIn(b'Calculate Slab, Square Footings, or Walls', response.data)
 
     ###################################
     # logged in can delete everything #
@@ -561,7 +576,11 @@ class AllTests(unittest.TestCase):
                                                           scheduled_bid_date="2016-01-02 16:00:00",
                                                           tentative_bid_date="2016-05-01",
                                                           actual_start="2016-05-01",
-                                                          completion_date="2016-05-05"), follow_redirects=True)
+                                                          completion_date="2016-05-05",
+                                                          down_payment_date_amount=500,
+                                                          down_payment_date="2016-05-31",
+                                                          paid_in_full_amount=3730.50,
+                                                          paid_in_full_date="2016-06-10"), follow_redirects=True)
         self.assertIn('Bid was successfully edited', response.data)
 
     def test_form_AddServiceForm_edit(self):
@@ -628,6 +647,40 @@ class AllTests(unittest.TestCase):
                                  follow_redirects=True)
         # The new total is (item1 573.75) + (item2 573.75) + (custom item3 500) = 1647.50
         self.assertIn(b'1647.50', response.data)
+
+    def test_remaining_balance_on_bid_no_down_payment(self):
+        self.login(USERNAME, PASSWORD)
+        self.test_logged_in_can_add_everything()
+        response = self.app.get('bid_edit/1/', follow_redirects=True)
+        # The total for one regular item (573.75) and one custom item (678.90) should be 1252.65
+        self.assertIn(b'<td style="color: red">$1252.65</td>', response.data)
+
+    # When I edit the bid I need to put all the values back on my POST. I got tripped up on this.
+    # It doesn't edit just the ones i posted it over-wrote all the ones I didn't post causing form validation to fail
+    def test_remaining_balance_on_bid_with_down_payment(self):
+        self.login(USERNAME, PASSWORD)
+        self.test_logged_in_can_add_everything()
+        # The total for one regular item (573.75) and one custom item (678.90) should be 1252.65
+        # Down payment of 777.77 dollars (1252.65-777.77=474.88)
+        response = self.app.post('bid_edit/1/', data=dict(notes="these are my bid notes",
+                                                          description="this is my edited description",
+                                                          down_payment_amount=777.77,
+                                                          down_payment_date="2016-07-01"), follow_redirects=True)
+        self.assertIn(b'<td style="color: red">$474.88</td>', response.data)
+
+    def test_remaining_balance_on_bid_when_paid_in_full(self):
+        self.login(USERNAME, PASSWORD)
+        self.test_logged_in_can_add_everything()
+        # The total for one regular item (573.75) and one custom item (678.90) should be 1252.65
+        # Test that paid in full amount subtracted from bid total equals a remaining balance of 0.00
+        response = self.app.post('bid_edit/1/', data=dict(notes="these are my bid notes",
+                                                          description="this is my edited description",
+                                                          down_payment_amount=777.77,
+                                                          down_payment_date="2016-07-01",
+                                                          paid_in_full_amount=1252.65,
+                                                          paid_in_full_date="2016-07-15"), follow_redirects=True)
+        self.assertIn(b'<td style="color: red">$0.00</td>', response.data)
+
 
 if __name__ == "__main__":
     unittest.main()
