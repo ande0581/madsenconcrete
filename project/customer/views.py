@@ -143,7 +143,8 @@ def customer_edit(customer_edit_id):
 @customer_blueprint.route('/customer_delete/<int:customer_del_id>', methods=['GET', 'POST'])
 @login_required
 def customer_delete(customer_del_id):
-    db.session.query(Customer).filter_by(id=customer_del_id).delete()
+    my_customer = Customer.query.get(customer_del_id)
+    db.session.delete(my_customer)
     db.session.commit()
     flash("The customer was deleted")
     return redirect(url_for('customer.customers'))
