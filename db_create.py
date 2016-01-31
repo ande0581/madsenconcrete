@@ -33,6 +33,7 @@ db.session.add(Service("Grass Seed (sq/ft)", .10))
 db.session.add(Service("Railing Painted (ft)", 70.00))
 db.session.add(Service("Railing Powder Coated (ft)", 90.00))
 
+"""
 # insert customers
 db.session.add(Customer("Adam Smith", "adminsmith@domain.com", "6125551000", datetime.datetime.now(pytz.timezone('US/Central'))))
 db.session.add(Customer("Betty Smith", "bettysmith@domain.com", "6125551001", datetime.datetime.now(pytz.timezone('US/Central'))))
@@ -112,6 +113,7 @@ db.session.add(Customer("Wyatt Hickman", "wyatth@gmail.com", "9525551022", datet
 db.session.add(Customer("Xavier Hickman", "xavierh@gmail.com", "9525551023", datetime.datetime.now(pytz.timezone('US/Central'))))
 db.session.add(Customer("Yelena Hickman", "yelenah@gmail.com", "9525551024", datetime.datetime.now(pytz.timezone('US/Central'))))
 db.session.add(Customer("Zoe Hickman", "zoeh@gmail.com", "9525551025", datetime.datetime.now(pytz.timezone('US/Central'))))
+"""
 
 # commit the changes
 db.session.commit()
