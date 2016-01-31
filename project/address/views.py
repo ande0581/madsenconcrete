@@ -88,8 +88,9 @@ def address_edit(address_edit_id):
 @login_required
 def address_delete(address_del_id):
     address = Address.query.get(address_del_id)
-    db.session.query(Address).filter_by(id=address_del_id).delete()
+    customer_id = address.customer_id
+    db.session.delete(address)
     db.session.commit()
     flash("The address was deleted")
-    return redirect(url_for('customer.customer_details', customer_id=address.customer_id))
+    return redirect(url_for('customer.customer_details', customer_id=customer_id))
 

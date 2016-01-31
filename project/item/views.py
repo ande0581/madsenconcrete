@@ -157,8 +157,9 @@ def item_edit_custom(item_edit_id):
 @item_blueprint.route('/item_delete/<int:item_delete_id>/', methods=['GET', 'POST'])
 @login_required
 def item_delete(item_delete_id):
-    bid = db.session.query(BidItem).filter_by(id=item_delete_id).first()
-    db.session.query(BidItem).filter_by(id=item_delete_id).delete()
+    bid_item = BidItem.query.get(item_delete_id)
+    bid_edit_id = bid_item.bid_id
+    db.session.delete(bid_item)
     db.session.commit()
     flash("The item was deleted")
-    return redirect(url_for('bid.bid_edit', bid_edit_id=bid.bid_id))
+    return redirect(url_for('bid.bid_edit', bid_edit_id=bid_edit_id))

@@ -99,7 +99,8 @@ def service_edit(service_edit_id):
 @service_blueprint.route('/service_delete/<int:service_delete_id>/', methods=['GET', 'POST'])
 @login_required
 def service_delete(service_delete_id):
-    db.session.query(Service).filter_by(id=service_delete_id).delete()
+    service = Service.query.get(service_delete_id)
+    db.session.delete(service)
     db.session.commit()
     flash("The service was deleted")
     return redirect(url_for('service.services'))

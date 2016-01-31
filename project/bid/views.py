@@ -148,10 +148,11 @@ def bid_edit(bid_edit_id):
 @login_required
 def bid_delete(bid_delete_id):
     bid = Bid.query.get(bid_delete_id)
-    db.session.query(Bid).filter_by(id=bid_delete_id).delete()
+    customer_id = bid.customer_id
+    db.session.delete(bid)
     db.session.commit()
     flash("The bid was deleted")
-    return redirect(url_for('customer.customer_details', customer_id=bid.customer_id))
+    return redirect(url_for('customer.customer_details', customer_id=customer_id))
 
 
 # Bid Create PDF

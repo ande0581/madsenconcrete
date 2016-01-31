@@ -86,7 +86,8 @@ def journal_edit(journal_edit_id):
 @login_required
 def journal_delete(journal_del_id):
     journal = Journal.query.get(journal_del_id)
-    db.session.query(Journal).filter_by(id=journal_del_id).delete()
+    customer_id = journal.customer_id
+    db.session.delete(journal)
     db.session.commit()
     flash("The journal entry was deleted")
-    return redirect(url_for('customer.customer_details', customer_id=journal.customer_id))
+    return redirect(url_for('customer.customer_details', customer_id=customer_id))
