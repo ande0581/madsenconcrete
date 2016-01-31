@@ -5,7 +5,7 @@
  {{ customer.name }}<br>
  {{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}<br>
  {{ customer.email }}<br>
- <em>Created: {{ customer.created_date }}</em><br>
+ <em>Created: {{ customer.created_date }} &nbsp;(customer_id = {{ customer.id }})</em><br>
 <a href="{{ url_for('customer.customer_edit', customer_edit_id=customer_id) }}" class="btn btn-sm btn-info"
    role="button">Edit</a>
 <a href="{{ url_for('customer.customer_delete', customer_del_id=customer_id) }}" class="btn btn-sm btn-danger"
