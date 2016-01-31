@@ -15,6 +15,9 @@ class Customer(db.Model):
     email = db.Column(db.String, nullable=False)
     telephone = db.Column(db.String, nullable=False)
     created_date = db.Column(db.Date, default=datetime.datetime.now(pytz.timezone('US/Central')))
+    addresses = db.relationship('Address', backref='customer', cascade="all, delete-orphan", lazy='joined')
+    journals = db.relationship('Journal', backref='journal', cascade="all, delete-orphan", lazy='joined')
+    customer_bids = db.relationship('Bid', backref='customer_bid', cascade="all, delete-orphan", lazy='joined')
 
     def __init__(self, name, email, telephone, created_date):
         self.name = name
@@ -36,6 +39,7 @@ class Address(db.Model):
     state = db.Column(db.String, nullable=False)
     zip = db.Column(db.String, nullable=False)
     customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+    address_bids = db.relationship('Bid', backref='address_bid', cascade="all, delete-orphan", lazy='joined')
 
     def __init__(self, street, city, state, zip, customer_id):
         self.street = street
@@ -85,6 +89,7 @@ class Bid(db.Model):
     paid_in_full_amount = db.Column(db.Float)
     paid_in_full_date = db.Column(db.Date)
     status = db.Column(db.String)
+    bid_items = db.relationship('BidItem', backref='bid_item', cascade="all, delete-orphan", lazy='joined')
 
     def __init__(self, description, notes, timestamp, customer_id, address_id, scheduled_bid_date, tentative_start,
                  actual_start, completion_date, down_payment_amount, down_payment_date, paid_in_full_amount,
