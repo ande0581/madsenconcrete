@@ -2,6 +2,7 @@
 
 import pytz  # used to configure local timezones
 import datetime
+import os
 from functools import wraps
 from flask import flash, redirect, render_template, request, session, url_for, Blueprint
 from sqlalchemy.sql import func
@@ -156,12 +157,13 @@ def bid_delete(bid_delete_id):
 
 
 # Bid Create PDF
-@bid_blueprint.route('/bid_create_pdf/<int:bid_id_pdf>/', methods=['GET', 'POST'])
+@bid_blueprint.route('/bid_create_pdf/<int:bid_id_pdf>/', defaults={'save_to_disk': False}, methods=['GET', 'POST'])
+@bid_blueprint.route('/bid_create_pdf/<int:bid_id_pdf>/<save_to_disk>', methods=['GET', 'POST'])
 @login_required
-def bid_create_pdf(bid_id_pdf):
-    bid = db.session.query(Bid).filter_by(id=bid_id_pdf).first()
-    address = db.session.query(Address).filter_by(id=bid.address_id).first()
-    customer = db.session.query(Customer).filter_by(id=address.customer_id).first()
+def bid_create_pdf(bid_id_pdf, save_to_disk):
+    bid = Bid.query.get(bid_id_pdf)
+    address = Address.query.get(bid.address_id)
+    customer = Customer.query.get(address.customer_id)
     html = render_template('bid_pdf.html',
                            bid_id=bid_id_pdf,
                            sum_of_items=sum_all_items_one_bid(bid_id_pdf),
@@ -170,6 +172,44 @@ def bid_create_pdf(bid_id_pdf):
                            bid_time=datetime.datetime.now(pytz.timezone('US/Central')).strftime('%x'),
                            address=address,
                            customer=customer)
+    if save_to_disk:
+        # useful path examples http://stackoverflow.com/questions/5137497/find-current-directory-and-files-directory
+
+        # Set appropriate slash depending on OS
+        if os.name =='nt':
+            base_dir = "{}\\{}".format(os.getcwd(), 'customer_data')
+        else:
+            base_dir = "{}/{}".format(os.getcwd(), 'customer_data')
+
+        # Escape illegal directory path characters and replace with underscore
+        customer_name = customer.name
+        for character in ['<', '>', ':', '"', '/', '\\', '|', '?', '*', ' ']:
+            if character in customer_name:
+                customer_name = customer_name.replace(character, "_")
+
+        # Set appropriate slash depending on OS
+        if os.name =='nt':
+            customer_folder = "{}_{}\\".format(customer_name, customer.id)
+        else:
+            customer_folder = "{}_{}/".format(customer_name, customer.id)
+
+        # Create the directory path
+        directory = os.path.join(base_dir, customer_folder)
+
+        # Create directory if it doesnt exist
+        if not os.path.isdir(directory):
+            os.makedirs(directory)
+
+        # Combine generate filename and combine with path
+        current_date = datetime.datetime.now(pytz.timezone('US/Central')).strftime('%Y%m%d%H%M')
+        filename = "{}_{}.pdf".format(customer_name, current_date)
+        path = directory + filename
+
+        # Create pdf and store it on server
+        HTML(string=html).write_pdf(path)
+
+        flash("The bid was saved to hard disk")
+        return redirect(url_for('bid.bid_edit', bid_edit_id=bid.id))
     return render_pdf(HTML(string=html))
 
 
