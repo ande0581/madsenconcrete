@@ -18,7 +18,7 @@
         </td>
 
         <td style="vertical-align:top; width: 33.3333%; text-align: center">
-            <h2 id="title"><em>Proposal</em></h2>
+            <h2 id="title"><em>Receipt</em></h2>
             <div id="company_address">
                 179 Marvy St<br>
                 Lino Lakes, MN 55014<br>
@@ -29,8 +29,6 @@
         </td>
 
         <td style="vertical-align:top; width: 33.3333%; text-align: right; font-size: .8em;">
-            <strong>Submitted By</strong><br>
-            Tom Madsen<br>
             Date: {{ bid_time }}<br>
             Invoice: {{ "{0:0>4}".format(bid.id) }}<br>
         </td>
@@ -75,6 +73,13 @@
         {% endfor %}
   {% endif %}
 
+      <thead>
+        <tr>
+            <th width="30px"><strong>Total</strong></th>
+            <th style="text-align: right;">{{ "${0:0.2f}".format(sum_of_items[0]) }}</th>
+        </tr>
+      </thead>
+
     </table>
 </div>
 
@@ -84,94 +89,30 @@
     <table>
       <thead>
         <tr>
-            <th width="50px"><strong>Notes</strong></th>
+            <th colspan="2" width="50px"><strong>Payment History</strong></th>
         </tr>
       </thead>
         <tr>
-            <td>
-            {{ bid.notes }}
-            </td>
-        </tr>
-    </table>
-</div>
-
-
-<br>
-<div class="entries">
-    <div class="datagrid">
-    <table>
-        <thead>
-            <tr>
-                <th width="75px"><strong>We Propose</strong></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tr>
-            <td>
-                Hereby to furnish material and labor complete in accordance with above specifications, for the sum of<br>
-            </td>
-            <td style="text-align: right;">
-                <br>
-                {{ "${0:0.2f}".format(sum_of_items[0]) }}
-            </td>
-        </tr>
-
-      <thead>
-        <tr>
-            <th colspan="2"><strong>Payment Outline</strong></th>
-        </tr>
-      </thead>
-        <tr>
-            <td>Deposit</td>
+            <td>{{ bid.down_payment_date }}</td>
             <td style="text-align: right;">{{ "${0:0.2f}".format(bid.down_payment_amount) }}</td>
         </tr>
 
         <tr>
-            <td>Remaining Balance Due Upon Completion of the Contract</td>
-            <td style="text-align: right;">{{ "${0:0.2f}".format(sum_of_items[0] - bid.down_payment_amount) }}</td>
+            <td>{{ bid.final_payment_date }}</td>
+            <td style="text-align: right;">{{ "${0:0.2f}".format(bid.final_payment_amount) }}</td>
         </tr>
 
+      <thead>
         <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-
-        <tr>
-            <td height="60px">X_______________________________________________________________</td>
-            <td height="60px">________________</td>
-        </tr>
-
-       <thead>
-        <tr>
-            <th colspan="2"><strong>Acceptance of Proposal</strong></th>
+            <th width="50px"><strong>Outstanding Balance</strong></th>
+            <th width="50px" style="text-align: right">
+                <strong>{{ "${0:0.2f}".format(sum_of_items[0] - (bid.final_payment_amount + bid.down_payment_amount)) }}</strong></th>
         </tr>
       </thead>
-        <tr>
-            <td colspan="2">
-                The above prices, specifications and conditions are satisfactory and are hereby accepted.
-                You are authorized to do the work as specified. Payment will be made as outlined above.
-                I have received a copy of the Pre-Lien Notice.
-            </td>
-        </tr>
-        <tr>
-
-        </tr>
-
-        <tr>
-            <td>Signature:</td>
-            <td>Date:</td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td height="60px">X__________________________________________________________________________</td>
-            <td height="60px">________________</td>
-        </tr>
 
     </table>
 </div>
+
 {% endblock %}
 </body>
 </html>
