@@ -28,9 +28,11 @@
             </div>
         </td>
 
-        <td style="vertical-align:top; width: 33.3333%; text-align: right; font-size: .9em;">
+        <td style="vertical-align:top; width: 33.3333%; text-align: right; font-size: .8em;">
+            <strong>Submitted By</strong><br>
+            Tom Madsen<br>
             Date: {{ bid_time }}<br>
-            Invoice: {{ "{0:0>4}".format(bid.id) }}
+            Invoice: {{ "{0:0>4}".format(bid.id) }}<br>
         </td>
 
     </tr>
@@ -128,13 +130,6 @@
             <td>Remaining Balance Due Upon Completion of the Contract</td>
             <td style="text-align: right;">{{ "${0:0.2f}".format(sum_of_items[0] - bid.down_payment_amount) }}</td>
         </tr>
-
-      <thead>
-        <tr>
-            <th><strong>Proposal Prepared By</strong></th>
-            <th><strong>Date</strong></th>
-        </tr>
-      </thead>
 
         <tr>
             <td>&nbsp;</td>
