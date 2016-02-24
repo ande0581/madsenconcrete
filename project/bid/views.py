@@ -60,16 +60,6 @@ def query_bid(bid_id):
     return db.session.query(Bid).filter_by(id=bid_id).first()
 
 
-def query_payment_balance(bid_id_payment):
-    customer_bid = db.session.query(Bid).filter_by(id=bid_id_payment).first()
-    if customer_bid.paid_in_full_amount:
-        return customer_bid.paid_in_full_amount
-    elif customer_bid.down_payment_amount:
-        return customer_bid.down_payment_amount
-    else:
-        return 0
-
-
 ##########
 # Routes #
 ##########
@@ -94,8 +84,8 @@ def bid_add(bid_customer_id, bid_address_id):
                 completion_date=None,
                 down_payment_amount=None,
                 down_payment_date=None,
-                paid_in_full_amount=None,
-                paid_in_full_date=None,
+                final_payment_amount=None,
+                final_payment_date=None,
                 status='Needs Bid'
             )
             db.session.add(add_bid)
@@ -128,8 +118,8 @@ def bid_edit(bid_edit_id):
             bid.completion_date = form.completion_date.data
             bid.down_payment_date = form.down_payment_date.data
             bid.down_payment_amount = form.down_payment_amount.data
-            bid.paid_in_full_date = form.paid_in_full_date.data
-            bid.paid_in_full_amount = form.paid_in_full_amount.data
+            bid.final_payment_date = form.final_payment_date.data
+            bid.final_payment_amount = form.final_payment_amount.data
             db.session.commit()
             flash('Bid was successfully edited')
     return render_template('bid_form_edit.html',
@@ -139,8 +129,7 @@ def bid_edit(bid_edit_id):
                            customer=query_one_customer(bid.customer_id),
                            items=query_one_bid_items(bid_edit_id),
                            sum_of_items=sum_all_items_one_bid(bid_edit_id),
-                           bid_id=bid.id,
-                           payment_balance=query_payment_balance(bid_edit_id),
+                           bid=bid,
                            error=error)
 
 
@@ -210,6 +199,24 @@ def bid_create_pdf(bid_id_pdf, save_to_disk):
 
         flash("The bid was saved to hard disk")
         return redirect(url_for('bid.bid_edit', bid_edit_id=bid.id))
+    return render_pdf(HTML(string=html))
+
+
+# Bid Create Receipt PDF
+@bid_blueprint.route('/bid_create_receipt/<int:bid_id_pdf>/', methods=['GET', 'POST'])
+@login_required
+def bid_create_receipt(bid_id_pdf):
+    bid = Bid.query.get(bid_id_pdf)
+    address = Address.query.get(bid.address_id)
+    customer = Customer.query.get(address.customer_id)
+    html = render_template('receipt_pdf.html',
+                           bid_id=bid_id_pdf,
+                           sum_of_items=sum_all_items_one_bid(bid_id_pdf),
+                           items=query_one_bid_items(bid_id_pdf),
+                           bid=query_bid(bid_id_pdf),
+                           bid_time=datetime.datetime.now(pytz.timezone('US/Central')).strftime('%x'),
+                           address=address,
+                           customer=customer)
     return render_pdf(HTML(string=html))
 
 
