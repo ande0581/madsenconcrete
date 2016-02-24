@@ -141,41 +141,43 @@
     </tr>
 
     <tr>
-        <td width="200px">Paid in Full Date</td>
+        <td width="200px">Final Payment Date</td>
         <td>
             <!-- dont show date value (None) in the form field, on submit the form validation will fail -->
-            {% if form.paid_in_full_date.data %}
-                <input type="text" name="paid_in_full_date" id="paid_in_full_date" value="{{ form.paid_in_full_date.data }}">
+            {% if form.final_payment_date.data %}
+                <input type="text" name="final_payment_date" id="final_payment_date" value="{{ form.final_payment_date.data }}">
             {% else %}
-                <input type="text" name="paid_in_full_date" id="paid_in_full_date" value="">
+                <input type="text" name="final_payment_date" id="final_payment_date" value="">
             {% endif %}
             <span class="error">
-              {% if form.paid_in_full_date.errors %}
-                {% for error in form.paid_in_full_date.errors %}
+              {% if form.final_payment_date.errors %}
+                {% for error in form.final_payment_date.errors %}
                   {{ error }}
                 {% endfor %}
               {% endif %}
             </span>
         </td>
-        <td style="padding-left:2em">${{ form.paid_in_full_amount(placeholder="Total Paid") }}</td>
+        <td style="padding-left:2em">${{ form.final_payment_amount(placeholder="Final Payment Amount") }}</td>
     </tr>
 
     <tr>
         <td width="200px">Remaining Balance</td>
         {% if sum_of_items[0] is not none: %}
-            <td style="color: red">{{ "${0:0.2f}".format(sum_of_items[0] - payment_balance) }}</td>
+            <td style="color: red">{{ "${0:0.2f}".format(sum_of_items[0] - (bid.final_payment_amount + bid.down_payment_amount)) }}</td>
         {% else %}
             <td style="color: red">{{ "${0:0.2f}".format(0) }}
         {% endif %}
     </tr>
 </table>
+<a href="{{ url_for('bid.bid_create_receipt', bid_id_pdf=bid.id) }}" target="_blank" class="btn btn-sm btn-info"
+role="button">View Receipt</a>
 
-
+<br>
 <br>
 <div class="entries">
   <h4><strong>Items </strong>
-    <a href="{{ url_for('item.item_add', bid_id=bid_id) }}" class="btn btn-sm btn-success">Add</a>
-    <a href="{{ url_for('item.item_add_custom', bid_id=bid_id) }}" class="btn btn-sm btn-info">Add Custom Item</a></h4>
+    <a href="{{ url_for('item.item_add', bid_id=bid.id) }}" class="btn btn-sm btn-success">Add</a>
+    <a href="{{ url_for('item.item_add_custom', bid_id=bid.id) }}" class="btn btn-sm btn-info">Add Custom Item</a></h4>
   </h4>
     <div class="datagrid">
     <table>
@@ -242,9 +244,9 @@
 </div>
 <br>
     <button class="btn btn-sm btn-success" type="submit">Save</button>
-    <a href="{{ url_for('bid.bid_create_pdf', bid_id_pdf=bid_id) }}" target="_blank" class="btn btn-sm btn-info"
+    <a href="{{ url_for('bid.bid_create_pdf', bid_id_pdf=bid.id) }}" target="_blank" class="btn btn-sm btn-info"
        role="button">View PDF</a>
-    <a href="{{ url_for('bid.bid_create_pdf', bid_id_pdf=bid_id, save_to_disk=True) }}" class="btn btn-sm btn-warning"
+    <a href="{{ url_for('bid.bid_create_pdf', bid_id_pdf=bid.id, save_to_disk=True) }}" class="btn btn-sm btn-warning"
        role="button">Save PDF</a>
     <a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}" class="btn btn-sm btn-primary"
        role="button">Return to Customer</a>
