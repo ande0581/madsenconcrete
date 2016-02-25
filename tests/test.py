@@ -78,8 +78,8 @@ class AllTests(unittest.TestCase):
                                                        completion_date=None,
                                                        down_payment_amount=None,
                                                        down_payment_date=None,
-                                                       paid_in_full_amount=None,
-                                                       paid_in_full_date=None,
+                                                       final_payment_amount=None,
+                                                       final_payment_date=None,
                                                        status='Needs Bid'), follow_redirects=True)
 
     def item_add(self):
@@ -224,6 +224,14 @@ class AllTests(unittest.TestCase):
 
     def test_not_logged_in_cannot_access_calculator(self):
         response = self.app.get('calculator/', follow_redirects=True)
+        self.assertIn(b'You need to login first', response.data)
+
+    def test_not_logged_in_cannot_access_bid_create_pdf(self):
+        response = self.app.get('bid_create_pdf/1/', follow_redirects=True)
+        self.assertIn(b'You need to login first', response.data)
+
+    def test_not_logged_in_cannot_access_bid_create_receipt(self):
+        response = self.app.get('bid_create_receipt/1/', follow_redirects=True)
         self.assertIn(b'You need to login first', response.data)
 
     ################################
@@ -579,8 +587,8 @@ class AllTests(unittest.TestCase):
                                                           completion_date="2016-05-05",
                                                           down_payment_date_amount=500,
                                                           down_payment_date="2016-05-31",
-                                                          paid_in_full_amount=3730.50,
-                                                          paid_in_full_date="2016-06-10"), follow_redirects=True)
+                                                          final_payment_amount=3730.50,
+                                                          final_payment_date="2016-06-10"), follow_redirects=True)
         self.assertIn('Bid was successfully edited', response.data)
 
     def test_form_AddServiceForm_edit(self):
@@ -675,10 +683,10 @@ class AllTests(unittest.TestCase):
         # Test that paid in full amount subtracted from bid total equals a remaining balance of 0.00
         response = self.app.post('bid_edit/1/', data=dict(notes="these are my bid notes",
                                                           description="this is my edited description",
-                                                          down_payment_amount=777.77,
+                                                          down_payment_amount=500,
                                                           down_payment_date="2016-07-01",
-                                                          paid_in_full_amount=1252.65,
-                                                          paid_in_full_date="2016-07-15"), follow_redirects=True)
+                                                          final_payment_amount=752.65,
+                                                          final_payment_date="2016-07-15"), follow_redirects=True)
         self.assertIn(b'<td style="color: red">$0.00</td>', response.data)
 
 
