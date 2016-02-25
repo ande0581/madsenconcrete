@@ -93,13 +93,17 @@
         </tr>
       </thead>
         <tr>
-            <td>{{ bid.down_payment_date }}</td>
-            <td style="text-align: right;">{{ "${0:0.2f}".format(bid.down_payment_amount) }}</td>
+            {% if bid.down_payment_date: %}
+                <td>{{ bid.down_payment_date }}</td>
+                <td style="text-align: right;">{{ "${0:0.2f}".format(bid.down_payment_amount) }}</td>
+            {% endif %}
         </tr>
 
         <tr>
-            <td>{{ bid.final_payment_date }}</td>
-            <td style="text-align: right;">{{ "${0:0.2f}".format(bid.final_payment_amount) }}</td>
+            {% if bid.final_payment_date: %}
+                <td>{{ bid.final_payment_date }}</td>
+                <td style="text-align: right;">{{ "${0:0.2f}".format(bid.final_payment_amount) }}</td>
+            {% endif %}
         </tr>
 
       <thead>

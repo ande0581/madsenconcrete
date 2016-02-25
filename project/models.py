@@ -84,9 +84,9 @@ class Bid(db.Model):
     tentative_start = db.Column(db.Date)
     actual_start = db.Column(db.Date)
     completion_date = db.Column(db.Date)
-    down_payment_amount = db.Column(db.Float)
+    down_payment_amount = db.Column(db.Float, default=0)
     down_payment_date = db.Column(db.Date)
-    final_payment_amount = db.Column(db.Float)
+    final_payment_amount = db.Column(db.Float, default=0)
     final_payment_date = db.Column(db.Date)
     status = db.Column(db.String)
     bid_items = db.relationship('BidItem', backref='bid_item', cascade="all, delete-orphan", lazy='joined')
@@ -105,8 +105,8 @@ class Bid(db.Model):
         self.completion_date = completion_date
         self.down_payment_amount = down_payment_amount
         self.down_payment_date = down_payment_date
-        self.paid_in_full_amount = final_payment_amount
-        self.paid_in_full_date = final_payment_date
+        self.final_payment_amount = final_payment_amount
+        self.final_payment_date = final_payment_date
         self.status = status
 
     def __repr__(self):

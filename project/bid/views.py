@@ -117,9 +117,19 @@ def bid_edit(bid_edit_id):
             bid.actual_start = form.actual_start.data
             bid.completion_date = form.completion_date.data
             bid.down_payment_date = form.down_payment_date.data
-            bid.down_payment_amount = form.down_payment_amount.data
+
+            if form.down_payment_amount.data:
+                bid.down_payment_amount = form.down_payment_amount.data
+            else:
+                bid.down_payment_amount = 0
+
             bid.final_payment_date = form.final_payment_date.data
-            bid.final_payment_amount = form.final_payment_amount.data
+
+            if form.final_payment_amount.data:
+                bid.final_payment_amount = form.final_payment_amount.data
+            else:
+                bid.final_payment_amount = 0
+
             db.session.commit()
             flash('Bid was successfully edited')
     return render_template('bid_form_edit.html',
