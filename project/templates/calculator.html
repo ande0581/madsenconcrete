@@ -157,6 +157,91 @@
 
 </table>
 
+
+<br>
+<h4><strong>Calculate Triangle</strong></h4>
+<table>
+    <tr>
+        <td width="200px">Side A Feet</td>
+        <td>{{ form.triangle_side_a() }}
+            <span class="error">
+              {% if form.triangle_side_a.errors %}
+                {% for error in form.triangle_side_a.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
+
+    <tr>
+        <td width="200px">Side B Feet</td>
+        <td>{{ form.triangle_side_b() }}
+            <span class="error">
+              {% if form.triangle_side_b.errors %}
+                {% for error in form.triangle_side_b.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
+
+    <tr>
+        <td width="200px">Side C Feet</td>
+        <td>{{ form.triangle_side_c() }}
+            <span class="error">
+              {% if form.triangle_side_c.errors %}
+                {% for error in form.triangle_side_c.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
+
+    <tr>
+        <td width="200px">Thickness Inches</td>
+        <td>{{ form.triangle_thickness() }}
+            <span class="error">
+              {% if form.triangle_thickness.errors %}
+                {% for error in form.triangle_thickness.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+        </td>
+    </tr>
+
+    <tr>
+        <td width="200px" style="padding-top: 1em"><strong>Cubic Yards</strong></td>
+        <td style="padding-top: 1em">
+            {% if triangle_volume_yards: %}
+                {{ "{0:0.2f}".format(triangle_volume_yards) }}
+            {% endif %}
+        </td>
+    </tr>
+
+    <tr>
+        <td width="200px"><strong>80lb Bags</strong></td>
+        <td>
+            {% if triangle_volume_80lbs: %}
+                {{ "{0:0.2f}".format(triangle_volume_80lbs) }}
+            {% endif %}
+        </td>
+    </tr>
+
+        <tr>
+        <td width="200px"><strong>60lb Bags</strong></td>
+        <td>
+            {% if triangle_volume_60lbs: %}
+                {{ "{0:0.2f}".format(triangle_volume_60lbs) }}
+            {% endif %}
+        </td>
+    </tr>
+
+</table>
+
     <br>
     <br>
     <button class="btn btn-sm btn-success" type="submit">Calculate</button>

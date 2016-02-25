@@ -14,4 +14,8 @@ class CalculatorForm(Form):
     round_diameter = FloatField('round_diameter', validators=[Optional()])
     round_depth = FloatField('round_depth', validators=[Optional()])
     round_quantity = FloatField('round_quantity', validators=[Optional()])
+    triangle_side_a = FloatField('triangle_side_a', validators=[Optional()])
+    triangle_side_b = FloatField('triangle_side_b', validators=[Optional()])
+    triangle_side_c = FloatField('triangle_side_c', validators=[Optional()])
+    triangle_thickness = FloatField('triangle_thickness', validators=[Optional()])
 
