@@ -57,6 +57,7 @@
   font-size: 15px;
   font-weight: bold;
 }
+
 .datagrid table thead th:first-child {
   border: none;
 }
@@ -79,4 +80,10 @@
 
 .datagrid table tbody tr:last-child td {
   border-bottom: none;
+}
+
+@page {
+   @bottom-right {
+    content: counter(page) " of " counter(pages);
+   }
 }

@@ -87,11 +87,10 @@
 <div class="entries">
     <div class="datagrid">
     <table>
-      <thead>
-        <tr>
+        <tr style="color: #FFFFFF; background: #000000; font-size: 15px; font-weight: bold">
             <th colspan="2" width="50px"><strong>Payment History</strong></th>
         </tr>
-      </thead>
+
         <tr>
             {% if bid.down_payment_date: %}
                 <td>{{ bid.down_payment_date.strftime('%x') }}</td>
@@ -106,13 +105,11 @@
             {% endif %}
         </tr>
 
-      <thead>
-        <tr>
+        <tr  style="color: #FFFFFF; background: #000000; font-size: 15px; font-weight: bold">
             <th width="50px"><strong>Outstanding Balance</strong></th>
             <th width="50px" style="text-align: right">
                 <strong>{{ "${0:0.2f}".format(sum_of_items[0] - (bid.final_payment_amount + bid.down_payment_amount)) }}</strong></th>
         </tr>
-      </thead>
 
     </table>
 </div>

@@ -1,6 +1,7 @@
 <!-- HTML CSS values -->
 <!-- p class="red" translates to .red {} used for many -->
 <!-- p id="red" translates to #red {} used for just one -->
+<!-- https://github.com/Kozea/WeasyPrint/issues/76 -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -100,27 +101,25 @@
 <div class="entries">
     <div class="datagrid">
     <table>
-        <thead>
-            <tr>
-                <th width="75px"><strong>We Propose</strong></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tr>
-            <td>
-                Hereby to furnish material and labor complete in accordance with above specifications, for the sum of<br>
-            </td>
-            <td style="text-align: right;">
-                <br>
-                {{ "${0:0.2f}".format(sum_of_items[0]) }}
-            </td>
+        <tr style="color: #FFFFFF; background: #000000; font-size: 15px; font-weight: bold">
+            <th width="75px"><strong>We Propose</strong></th>
+            <th></th>
         </tr>
 
-      <thead>
-        <tr>
+    <tr>
+        <td>
+            Hereby to furnish material and labor complete in accordance with above specifications, for the sum of<br>
+        </td>
+        <td style="text-align: right;">
+            <br>
+            {{ "${0:0.2f}".format(sum_of_items[0]) }}
+        </td>
+    </tr>
+
+        <tr style="color: #FFFFFF; background: #000000; font-size: 15px; font-weight: bold">
             <th colspan="2"><strong>Payment Outline</strong></th>
         </tr>
-      </thead>
+
         <tr>
             <td>Deposit</td>
             <td style="text-align: right;">{{ "${0:0.2f}".format(bid.down_payment_amount) }}</td>
@@ -141,20 +140,16 @@
             <td height="60px">________________</td>
         </tr>
 
-       <thead>
-        <tr>
+        <tr  style="color: #FFFFFF; background: #000000; font-size: 15px; font-weight: bold">
             <th colspan="2"><strong>Acceptance of Proposal</strong></th>
         </tr>
-      </thead>
+
         <tr>
             <td colspan="2">
                 The above prices, specifications and conditions are satisfactory and are hereby accepted.
                 You are authorized to do the work as specified. Payment will be made as outlined above.
                 I have received a copy of the Pre-Lien Notice.
             </td>
-        </tr>
-        <tr>
-
         </tr>
 
         <tr>
