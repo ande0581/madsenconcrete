@@ -94,14 +94,14 @@
       </thead>
         <tr>
             {% if bid.down_payment_date: %}
-                <td>{{ bid.down_payment_date }}</td>
+                <td>{{ bid.down_payment_date.strftime('%x') }}</td>
                 <td style="text-align: right;">{{ "${0:0.2f}".format(bid.down_payment_amount) }}</td>
             {% endif %}
         </tr>
 
         <tr>
             {% if bid.final_payment_date: %}
-                <td>{{ bid.final_payment_date }}</td>
+                <td>{{ bid.final_payment_date.strftime('%x') }}</td>
                 <td style="text-align: right;">{{ "${0:0.2f}".format(bid.final_payment_amount) }}</td>
             {% endif %}
         </tr>
