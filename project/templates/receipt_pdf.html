@@ -76,7 +76,11 @@
       <thead>
         <tr>
             <th width="30px"><strong>Total</strong></th>
-            <th style="text-align: right;">{{ "${0:0.2f}".format(sum_of_items[0]) }}</th>
+            {% if sum_of_items[0] %}
+                <th style="text-align: right;">{{ "${0:0.2f}".format(sum_of_items[0]) }}</th>
+            {% else %}
+                <th style="text-align: right;">{{ "${0:0.2f}".format(0) }}</th>
+            {% endif %}
         </tr>
       </thead>
 
@@ -108,7 +112,9 @@
         <tr  style="color: #FFFFFF; background: #000000; font-size: 15px; font-weight: bold">
             <th width="50px"><strong>Outstanding Balance</strong></th>
             <th width="50px" style="text-align: right">
-                <strong>{{ "${0:0.2f}".format(sum_of_items[0] - (bid.final_payment_amount + bid.down_payment_amount)) }}</strong></th>
+                {% if sum_of_items[0] %}
+                    <strong>{{ "${0:0.2f}".format(sum_of_items[0] - (bid.final_payment_amount + bid.down_payment_amount)) }}</strong></th>
+                {% endif %}
         </tr>
 
     </table>

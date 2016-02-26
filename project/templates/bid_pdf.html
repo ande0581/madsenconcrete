@@ -112,7 +112,9 @@
         </td>
         <td style="text-align: right;">
             <br>
-            {{ "${0:0.2f}".format(sum_of_items[0]) }}
+            {% if sum_of_items[0] %}
+                {{ "${0:0.2f}".format(sum_of_items[0]) }}
+            {% endif %}
         </td>
     </tr>
 
@@ -127,7 +129,9 @@
 
         <tr>
             <td>Remaining Balance Due Upon Completion of the Contract</td>
-            <td style="text-align: right;">{{ "${0:0.2f}".format(sum_of_items[0] - bid.down_payment_amount) }}</td>
+            {% if sum_of_items[0] %}
+                <td style="text-align: right;">{{ "${0:0.2f}".format(sum_of_items[0] - bid.down_payment_amount) }}</td>
+            {% endif %}
         </tr>
 
         <tr>
