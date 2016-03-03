@@ -25,6 +25,7 @@
           <th><strong>Name</strong></th>
           <th><strong>Email</strong></th>
           <th><strong>Telephone</strong></th>
+          <th><strong>Created Date</strong></th>
         </tr>
       </thead>
       {% for customer in customers.items %}
@@ -32,6 +33,7 @@
           <td><a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}">{{ customer.name }}</a></td>
           <td>{{ customer.email }}</td>
           <td>{{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:]}}</td>
+          <td>{{ customer.created_date }}</td>
         </tr>
       {% endfor %}
     </table>

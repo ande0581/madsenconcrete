@@ -71,13 +71,13 @@ def customers(page=1):
         if form.validate_on_submit() and len(form.name.data) > 0:
             search = "%" + form.name.data + "%"
             # Show all search results on one page
-            all_customers = Customer.query.filter(Customer.name.like(search)).order_by(Customer.name.asc())
+            all_customers = Customer.query.filter(Customer.name.like(search)).order_by(Customer.created_date.desc())
             all_customers = all_customers.paginate(page, all_customers.count(), False)
         else:
-            all_customers = Customer.query.order_by(Customer.name.asc())
+            all_customers = Customer.query.order_by(Customer.created_date.desc())
             all_customers = all_customers.paginate(page, 20, False)
     else:
-        all_customers = Customer.query.order_by(Customer.name.asc()).paginate(page, 20, False)
+        all_customers = Customer.query.order_by(Customer.created_date.desc()).paginate(page, 20, False)
     return render_template('customers.html', customers=all_customers, form=form, error=error)
 
 
@@ -113,7 +113,7 @@ def customer_add():
             db.session.add(add_customer)
             db.session.commit()
             flash('New customer was successfully added')
-            return redirect(url_for('customer.customers'))
+            return redirect(url_for('customer.customer_details', customer_id=add_customer.id))
     return render_template('customer_form.html', action="/customer_add/", form=form, error=error)
 
 
