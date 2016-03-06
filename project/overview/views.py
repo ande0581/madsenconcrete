@@ -44,8 +44,20 @@ def query_all_addresses():
     return db.session.query(Address)
 
 
-def query_all_bids():
-    return db.session.query(Bid)
+def query_jobs_need_bid():
+    return db.session.query(Bid).filter_by(status='Needs Bid').order_by(Bid.scheduled_bid_date.asc())
+
+
+def query_jobs_started():
+    return db.session.query(Bid).filter_by(status='Job Started').order_by(Bid.actual_start.asc())
+
+
+def query_jobs_accepted():
+    return db.session.query(Bid).filter_by(status='Job Accepted').order_by(Bid.tentative_start.asc())
+
+
+def query_jobs_awaiting_acceptance():
+    return db.session.query(Bid).filter_by(status='Awaiting Customer Acceptance').order_by(Bid.scheduled_bid_date.desc())
 
 
 ##########
@@ -59,7 +71,10 @@ def query_all_bids():
 def overview():
     error = None
     return render_template('overview.html',
-                           bids=query_all_bids(),
+                           jobs_need_bid=query_jobs_need_bid(),
+                           jobs_started=query_jobs_started(),
+                           jobs_accepted=query_jobs_accepted(),
+                           jobs_awaiting_acceptance=query_jobs_awaiting_acceptance(),
                            customers=query_all_customers(),
                            addresses=query_all_addresses(),
                            error=error)

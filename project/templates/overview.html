@@ -14,7 +14,7 @@
           <th width="13%"><strong>Telephone</strong></th>
         </tr>
       </thead>
-      {% for bid in bids %}
+      {% for bid in jobs_need_bid %}
         {% if bid.status == 'Needs Bid': %}
           <tr>
             {% for customer in customers %}
@@ -69,7 +69,7 @@
         </tr>
       </thead>
 
-    {% for bid in bids %}
+    {% for bid in jobs_started %}
         {% if bid.status == 'Job Started': %}
           <tr>
             {% for customer in customers %}
@@ -122,7 +122,7 @@
         </tr>
       </thead>
 
-    {% for bid in bids %}
+    {% for bid in jobs_accepted %}
         {% if bid.status == 'Job Accepted': %}
           <tr>
             {% for customer in customers %}
@@ -176,7 +176,7 @@
         </tr>
       </thead>
 
-    {% for bid in bids %}
+    {% for bid in jobs_awaiting_acceptance %}
         {% if bid.status == 'Awaiting Customer Acceptance': %}
           <tr>
             {% for customer in customers %}
@@ -186,7 +186,7 @@
             {% endfor %}
 
             <td><a href="{{ url_for('bid.bid_edit', bid_edit_id=bid.id) }}">{{ bid.description }}</a></td>
-            <td>{{ bid.timestamp.strftime('%x') }}</td>
+            <td>{{ bid.scheduled_bid_date.strftime('%x') }}</td>
 
             {% for address in addresses %}
                 {% if bid.address_id == address.id %}
