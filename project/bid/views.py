@@ -6,7 +6,7 @@ import os
 from functools import wraps
 from flask import flash, redirect, render_template, request, session, url_for, Blueprint
 from sqlalchemy.sql import func
-from .forms import AddBidForm, EditBidForm
+from .forms import AddBidForm, EditBidForm, SearchBidForm
 from project import db
 from project.models import Bid, BidItem, Address, Customer
 from flask_weasyprint import HTML, render_pdf
@@ -56,6 +56,14 @@ def sum_all_items_one_bid(bid_id):
     return db.session.query(func.sum(BidItem.total)).filter_by(bid_id=bid_id).first()
 
 
+def query_all_customers():
+    return db.session.query(Customer).order_by(Customer.name.asc())
+
+
+def query_all_addresses():
+    return db.session.query(Address)
+
+
 def query_bid(bid_id):
     return db.session.query(Bid).filter_by(id=bid_id).first()
 
@@ -63,6 +71,36 @@ def query_bid(bid_id):
 ##########
 # Routes #
 ##########
+
+# View Bids
+@bid_blueprint.route('/bids/', methods=['GET', 'POST'])
+@login_required
+def view_bids():
+    error = None
+    form = SearchBidForm(request.form)
+    query_type = db.session.query(Bid).order_by(Bid.timestamp.asc())
+    if request.method == 'POST':
+        if form.bid_type.data == 'Needs Bid':
+            query_type = db.session.query(Bid).filter_by(status='Needs Bid').order_by(Bid.scheduled_bid_date.asc())
+        elif form.bid_type.data == 'Job Started':
+            query_type = db.session.query(Bid).filter_by(status='Job Started').order_by(Bid.actual_start.asc())
+        elif form.bid_type.data == 'Job Accepted':
+            query_type = db.session.query(Bid).filter_by(status='Job Accepted').order_by(Bid.tentative_start.asc())
+        elif form.bid_type.data == 'Awaiting Customer Acceptance':
+            query_type = db.session.query(Bid).filter_by(status='Awaiting Customer Acceptance').order_by(Bid.scheduled_bid_date.desc())
+        elif form.bid_type.data == 'Job Completed':
+            query_type = db.session.query(Bid).filter_by(status='Job Completed').order_by(Bid.completion_date.desc())
+        elif form.bid_type.data == 'Job Declined':
+            query_type = db.session.query(Bid).filter_by(status='Job Declined').order_by(Bid.scheduled_bid_date.desc())
+        else:
+            query_type = db.session.query(Bid).order_by(Bid.timestamp.asc())
+    return render_template('view_bids.html',
+                           bids=query_type,
+                           form=form,
+                           customers=query_all_customers(),
+                           addresses=query_all_addresses(),
+                           error=error)
+
 
 # Bid Add
 @bid_blueprint.route('/bid_add/<int:bid_customer_id>/<int:bid_address_id>/', methods=['GET', 'POST'])

@@ -29,3 +29,14 @@ class EditBidForm(Form):
     down_payment_date = DateField('Down Payment Date (yyyy-mm-dd)', validators=[Optional()])
     final_payment_amount = DecimalField('Final Payment Amount', validators=[Optional()])
     final_payment_date = DateField('Final Payment Date (yyyy-mm-dd)', validators=[Optional()])
+
+
+class SearchBidForm(Form):
+    bid_type = SelectField(
+        'Bid Type',
+        validators=[DataRequired()],
+        choices=[
+            ('All Bids', 'All Bids'), ('Needs Bid', 'Needs Bid'),
+            ('Awaiting Customer Acceptance', 'Awaiting Customer Acceptance'), ('Job Accepted', 'Job Accepted'),
+            ('Job Started', 'Job Started'), ('Job Completed', 'Job Completed'), ('Job Declined', 'Job Declined')]
+    )

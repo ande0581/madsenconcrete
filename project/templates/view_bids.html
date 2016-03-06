@@ -1,0 +1,76 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<form class="form-signin" role="form" method="post" action="/bids/">
+  {{ form.csrf_token }}
+
+    <form style="font-size: 1em">
+    {{ form.bid_type() }}
+            <span class="error">
+              {% if form.bid_type.errors %}
+                {% for error in form.bid_type.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+    <button class="btn btn-sm btn-success" type="submit">Search</button>
+</form>
+
+<br>
+<div class="entries">
+  <div class="datagrid">
+    <table>
+      <thead>
+        <tr>
+          <th width="10%"><strong>Customer</strong></th>
+          <th width="30%"><strong>Description</strong></th>
+          <th width="15%"><strong>Bid Status</strong></th>
+          <th width="12%"><strong>Date</strong></th>
+          <th width="20%"><strong>Address</strong></th>
+          <th width="13%"><strong>Telephone</strong></th>
+        </tr>
+      </thead>
+      {% for bid in bids %}
+          <tr>
+            {% for customer in customers %}
+                {% if bid.customer_id == customer.id %}
+                    <td><a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}">{{ customer.name }}</a></td>
+                {% endif %}
+            {% endfor %}
+
+            <td><a href="{{ url_for('bid.bid_edit', bid_edit_id=bid.id) }}">{{ bid.description }}</a></td>
+
+            {% if bid.status is not none: %}
+                <td>{{ bid.status }}</td>
+            {% else: %}
+                <td></td>
+            {% endif %}
+
+            {% if bid.scheduled_bid_date is not none: %}
+                <td>{{ bid.scheduled_bid_date.strftime('%x %I:%M %p') }}</td>
+            {% else: %}
+                <td></td>
+            {% endif %}
+
+            {% for address in addresses %}
+                {% if bid.address_id == address.id %}
+                   <td><a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+{{ address.state }}+{{ address.zip }}"
+                    target="_blank">{{ address.street }}, {{ address.city }}, {{ address.state }}</a></td>
+                {% endif %}
+            {% endfor %}
+
+
+            {% for customer in customers %}
+                {% if bid.customer_id == customer.id %}
+                    <td>{{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}</td>
+                {% endif %}
+            {% endfor %}
+          </tr>
+    {% endfor %}
+
+    </table>
+  </div>
+</div>
+
+{% endblock %}
