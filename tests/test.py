@@ -234,6 +234,10 @@ class AllTests(unittest.TestCase):
         response = self.app.get('bid_create_receipt/1/', follow_redirects=True)
         self.assertIn(b'You need to login first', response.data)
 
+    def test_not_logged_in_cannot_access_bids(self):
+        response = self.app.get('bids', follow_redirects=True)
+        self.assertIn(b'You need to login first', response.data)
+
     ################################
     # Logged in can add everything #
     ################################
