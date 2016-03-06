@@ -31,6 +31,7 @@
           <th width="13%"><strong>Telephone</strong></th>
         </tr>
       </thead>
+    {% if bids is not none: %}
       {% for bid in bids %}
           <tr>
             {% for customer in customers %}
@@ -47,8 +48,42 @@
                 <td></td>
             {% endif %}
 
-            {% if bid.scheduled_bid_date is not none: %}
-                <td>{{ bid.scheduled_bid_date.strftime('%x %I:%M %p') }}</td>
+            {% if bid.status == 'Needs Bid': %}
+              {% if bid.scheduled_bid_date is not none: %}
+                <td>{{ bid.scheduled_bid_date.strftime('%x') }}</td>
+              {% else: %}
+                <td></td>
+              {% endif %}
+            {% elif bid.status == 'Job Started': %}
+              {% if bid.actual_start is not none: %}
+                <td>{{ bid.actual_start.strftime('%x') }}</td>
+              {% else: %}
+                <td></td>
+              {% endif %}
+            {% elif bid.status == 'Job Accepted': %}
+              {% if bid.tentative_start is not none: %}
+                <td>{{ bid.tentative_start.strftime('%x') }}</td>
+              {% else: %}
+                <td></td>
+              {% endif %}
+            {% elif bid.status == 'Awaiting Customer Acceptance': %}
+              {% if bid.scheduled_bid_date is not none: %}
+                <td>{{ bid.scheduled_bid_date.strftime('%x') }}</td>
+              {% else: %}
+                <td></td>
+              {% endif %}
+            {% elif bid.status == 'Job Completed': %}
+              {% if bid.completion_date is not none: %}
+                <td>{{ bid.completion_date.strftime('%x') }}</td>
+              {% else: %}
+                <td></td>
+              {% endif %}
+            {% elif bid.status == 'Job Declined': %}
+              {% if bid.scheduled_bid_date is not none: %}
+                <td>{{ bid.scheduled_bid_date.strftime('%x') }}</td>
+              {% else: %}
+                <td></td>
+              {% endif %}
             {% else: %}
                 <td></td>
             {% endif %}
@@ -67,7 +102,8 @@
                 {% endif %}
             {% endfor %}
           </tr>
-    {% endfor %}
+      {% endfor %}
+     {% endif %}
 
     </table>
   </div>

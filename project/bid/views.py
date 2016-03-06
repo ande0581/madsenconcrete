@@ -78,7 +78,7 @@ def query_bid(bid_id):
 def view_bids():
     error = None
     form = SearchBidForm(request.form)
-    query_type = db.session.query(Bid).order_by(Bid.timestamp.asc())
+    query_type = None
     if request.method == 'POST':
         if form.bid_type.data == 'Needs Bid':
             query_type = db.session.query(Bid).filter_by(status='Needs Bid').order_by(Bid.scheduled_bid_date.asc())
