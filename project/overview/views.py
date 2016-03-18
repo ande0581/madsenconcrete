@@ -73,7 +73,7 @@ def overview():
             bid_info['bid_id'] = bid.id
 
             if bid_info['bid_status'] == 'Needs Bid':
-                bid_info['bid_date'] = bid.scheduled_bid_date.strftime('%x')
+                bid_info['bid_date'] = bid.scheduled_bid_date.strftime('%x %I:%M %p')
             elif bid_info['bid_status'] == 'Job Started':
                 bid_info['bid_date'] = bid.actual_start.strftime('%x')
             elif bid_info['bid_status'] == 'Job Accepted':
