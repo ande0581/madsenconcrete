@@ -7,10 +7,6 @@ from flask import flash, redirect, render_template, session, url_for, Blueprint
 from project import db
 from project.models import Customer, Address, Bid
 
-import pprint
-pp = pprint.PrettyPrinter(indent=4)
-
-
 ##########
 # config #
 ##########
@@ -104,6 +100,4 @@ def overview():
 
             database_list.append(bid_info)
 
-    pp.pprint(database_list)
-
-    return render_template('overview_test.html', bids=database_list)
+    return render_template('overview.html', bids=database_list)
