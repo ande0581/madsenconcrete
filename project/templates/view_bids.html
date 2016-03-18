@@ -2,18 +2,18 @@
 
 {% block content %}
 
-<form class="form-signin" role="form" method="post" action="/bids/">
-  {{ form.csrf_token }}
-
-    <form style="font-size: 1em">
+<form class="form-signin" role="form" method="post" style="font-size: 1em" action="/bids/">
+    {{ form.csrf_token }}
     {{ form.bid_type() }}
-            <span class="error">
-              {% if form.bid_type.errors %}
-                {% for error in form.bid_type.errors %}
-                  {{ error }}
-                {% endfor %}
-              {% endif %}
-            </span>
+
+        <span class="error">
+          {% if form.bid_type.errors %}
+            {% for error in form.bid_type.errors %}
+              {{ error }}
+            {% endfor %}
+          {% endif %}
+        </span>
+
     <button class="btn btn-sm btn-success" type="submit">Search</button>
 </form>
 
@@ -34,73 +34,24 @@
     {% if bids is not none: %}
       {% for bid in bids %}
           <tr>
-            {% for customer in customers %}
-                {% if bid.customer_id == customer.id %}
-                    <td><a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}">{{ customer.name }}</a></td>
-                {% endif %}
-            {% endfor %}
 
-            <td><a href="{{ url_for('bid.bid_edit', bid_edit_id=bid.id) }}">{{ bid.description }}</a></td>
+            <td><a href="{{ url_for('customer.customer_details', customer_id=bid['customer_id']) }}">{{ bid['customer_name'] }}</a></td>
 
-            {% if bid.status is not none: %}
-                <td>{{ bid.status }}</td>
+            <td><a href="{{ url_for('bid.bid_edit', bid_edit_id=bid['bid_id']) }}">{{ bid['bid_description'] }}</a></td>
+
+            {% if bid['bid_status'] is not none: %}
+                <td>{{ bid['bid_status'] }}</td>
             {% else: %}
                 <td></td>
             {% endif %}
 
-            {% if bid.status == 'Needs Bid': %}
-              {% if bid.scheduled_bid_date is not none: %}
-                <td>{{ bid.scheduled_bid_date.strftime('%x') }}</td>
-              {% else: %}
-                <td></td>
-              {% endif %}
-            {% elif bid.status == 'Job Started': %}
-              {% if bid.actual_start is not none: %}
-                <td>{{ bid.actual_start.strftime('%x') }}</td>
-              {% else: %}
-                <td></td>
-              {% endif %}
-            {% elif bid.status == 'Job Accepted': %}
-              {% if bid.tentative_start is not none: %}
-                <td>{{ bid.tentative_start.strftime('%x') }}</td>
-              {% else: %}
-                <td></td>
-              {% endif %}
-            {% elif bid.status == 'Awaiting Customer Acceptance': %}
-              {% if bid.scheduled_bid_date is not none: %}
-                <td>{{ bid.scheduled_bid_date.strftime('%x') }}</td>
-              {% else: %}
-                <td></td>
-              {% endif %}
-            {% elif bid.status == 'Job Completed': %}
-              {% if bid.completion_date is not none: %}
-                <td>{{ bid.completion_date.strftime('%x') }}</td>
-              {% else: %}
-                <td></td>
-              {% endif %}
-            {% elif bid.status == 'Job Declined': %}
-              {% if bid.scheduled_bid_date is not none: %}
-                <td>{{ bid.scheduled_bid_date.strftime('%x') }}</td>
-              {% else: %}
-                <td></td>
-              {% endif %}
-            {% else: %}
-                <td></td>
-            {% endif %}
+            <td>{{ bid['bid_date'] }}</td>
 
-            {% for address in addresses %}
-                {% if bid.address_id == address.id %}
-                   <td><a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+{{ address.state }}+{{ address.zip }}"
-                    target="_blank">{{ address.street }}, {{ address.city }}, {{ address.state }}</a></td>
-                {% endif %}
-            {% endfor %}
+            <td><a href="https://www.google.com/maps/place/{{ bid['address_street'].replace(' ', '+') }}+{{ bid['address_city'] }}+{{ bid['address_state'] }}+{{ bid['address_zip'] }}"
+                    target="_blank">{{ bid['address_street'] }}, {{ bid['address_city'] }}, {{ bid['address_state'] }}</a></td>
 
+            <td>{{ bid['customer_telephone'] }}</td>
 
-            {% for customer in customers %}
-                {% if bid.customer_id == customer.id %}
-                    <td>{{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}</td>
-                {% endif %}
-            {% endfor %}
           </tr>
       {% endfor %}
      {% endif %}

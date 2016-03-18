@@ -78,27 +78,69 @@ def query_bid(bid_id):
 def view_bids():
     error = None
     form = SearchBidForm(request.form)
-    query_type = None
+    bid_results = None
+    all_data_list = []
     if request.method == 'POST':
         if form.bid_type.data == 'Needs Bid':
-            query_type = db.session.query(Bid).filter_by(status='Needs Bid').order_by(Bid.scheduled_bid_date.asc())
+            bid_results = db.session.query(Bid).filter_by(status='Needs Bid').order_by(Bid.scheduled_bid_date.asc())
         elif form.bid_type.data == 'Job Started':
-            query_type = db.session.query(Bid).filter_by(status='Job Started').order_by(Bid.actual_start.asc())
+            bid_results = db.session.query(Bid).filter_by(status='Job Started').order_by(Bid.actual_start.asc())
         elif form.bid_type.data == 'Job Accepted':
-            query_type = db.session.query(Bid).filter_by(status='Job Accepted').order_by(Bid.tentative_start.asc())
+            bid_results = db.session.query(Bid).filter_by(status='Job Accepted').order_by(Bid.tentative_start.asc())
         elif form.bid_type.data == 'Awaiting Customer Acceptance':
-            query_type = db.session.query(Bid).filter_by(status='Awaiting Customer Acceptance').order_by(Bid.scheduled_bid_date.desc())
+            bid_results = db.session.query(Bid).filter_by(status='Awaiting Customer Acceptance').order_by(Bid.scheduled_bid_date.desc())
         elif form.bid_type.data == 'Job Completed':
-            query_type = db.session.query(Bid).filter_by(status='Job Completed').order_by(Bid.completion_date.desc())
+            bid_results = db.session.query(Bid).filter_by(status='Job Completed').order_by(Bid.completion_date.desc())
         elif form.bid_type.data == 'Job Declined':
-            query_type = db.session.query(Bid).filter_by(status='Job Declined').order_by(Bid.scheduled_bid_date.desc())
+            bid_results = db.session.query(Bid).filter_by(status='Job Declined').order_by(Bid.scheduled_bid_date.desc())
         else:
-            query_type = db.session.query(Bid).order_by(Bid.timestamp.asc())
+            bid_results = db.session.query(Bid).order_by(Bid.timestamp.asc())
+
+    # combine customer and address and bid together
+    if bid_results:
+        for bid in bid_results:
+            all_data_dict = {}
+            all_data_dict['customer_name'] = db.session.query(Customer.name).filter_by(id=bid.customer_id).first()
+            all_data_dict['customer_name'] = all_data_dict['customer_name'][0]
+            all_data_dict['customer_id'] = bid.customer_id
+            all_data_dict['bid_description'] = bid.description
+            all_data_dict['bid_status'] = bid.status
+            all_data_dict['bid_id'] = bid.id
+
+            if all_data_dict['bid_status'] == 'Needs Bid':
+                all_data_dict['bid_date'] = bid.scheduled_bid_date.strftime('%x')
+            elif all_data_dict['bid_status'] == 'Job Started':
+                all_data_dict['bid_date'] = bid.actual_start.strftime('%x')
+            elif all_data_dict['bid_status'] == 'Job Accepted':
+                all_data_dict['bid_date'] = bid.tentative_start.strftime('%x')
+            elif all_data_dict['bid_status'] == 'Awaiting Customer Acceptance':
+                all_data_dict['bid_date'] = bid.scheduled_bid_date.strftime('%x')
+            elif all_data_dict['bid_status'] == 'Job Completed':
+                all_data_dict['bid_date'] = bid.completion_date.strftime('%x')
+            elif all_data_dict['bid_status'] == 'Job Declined':
+                all_data_dict['bid_date'] = bid.scheduled_bid_date.strftime('%x')
+            else:
+                all_data_dict['bid_date'] = "Something didn't work right!!"
+
+            all_data_dict['address_street'] = db.session.query(Address.street).filter_by(customer_id=bid.customer_id).first()
+            all_data_dict['address_street'] = all_data_dict['address_street'][0]
+            all_data_dict['address_city'] = db.session.query(Address.city).filter_by(customer_id=bid.customer_id).first()
+            all_data_dict['address_city'] = all_data_dict['address_city'][0]
+            all_data_dict['address_state'] = db.session.query(Address.state).filter_by(customer_id=bid.customer_id).first()
+            all_data_dict['address_state'] = all_data_dict['address_state'][0]
+            all_data_dict['address_zip'] = db.session.query(Address.zip).filter_by(customer_id=bid.customer_id).first()
+            all_data_dict['address_zip'] = all_data_dict['address_zip'][0]
+
+            telephone = db.session.query(Customer.telephone).filter_by(id=bid.customer_id).first()
+            if telephone[0]:
+                all_data_dict['customer_telephone'] = "({}) {}-{}".format(telephone[0][:3], telephone[0][3:6], telephone[0][6:])
+            else:
+                all_data_dict['customer_telephone'] = ""
+
+            all_data_list.append(all_data_dict)
     return render_template('view_bids.html',
-                           bids=query_type,
+                           bids=all_data_list,
                            form=form,
-                           customers=query_all_customers(),
-                           addresses=query_all_addresses(),
                            error=error)
 
 
