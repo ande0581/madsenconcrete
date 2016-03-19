@@ -18,7 +18,7 @@
 </form>
 
 <br>
-<div class="entries">
+<!-- <div class="entries"> -->
   <div class="datagrid">
     <table>
       <thead>
@@ -33,7 +33,7 @@
       </thead>
     {% if bids is not none: %}
       {% for bid in bids %}
-          <tr>
+          <tr style="{{ loop.cycle('background: white;', 'background: #F0F0F0;') }}">
 
             <td><a href="{{ url_for('customer.customer_details', customer_id=bid['customer_id']) }}">{{ bid['customer_name'] }}</a></td>
 
@@ -58,6 +58,6 @@
 
     </table>
   </div>
-</div>
+<!-- </div> -->
 
 {% endblock %}

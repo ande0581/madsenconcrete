@@ -194,7 +194,7 @@ role="button">View Receipt</a>
 
   {% if sum_of_items[0] is not none: %}
         {% for item in items %}
-            <tr>
+            <tr style="{{ loop.cycle('background: white;', 'background: #F0F0F0;') }}">
               <td width="75px">{{ item.description }}</td>
 
               <!-- If the item is a custom item (no quantity) send to a different form to edit -->

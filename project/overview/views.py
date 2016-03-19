@@ -73,13 +73,17 @@ def overview():
             bid_info['bid_id'] = bid.id
 
             if bid_info['bid_status'] == 'Needs Bid':
-                bid_info['bid_date'] = bid.scheduled_bid_date.strftime('%x %I:%M %p')
+                if bid.scheduled_bid_date:
+                    bid_info['bid_date'] = bid.scheduled_bid_date.strftime('%x %I:%M %p')
             elif bid_info['bid_status'] == 'Job Started':
-                bid_info['bid_date'] = bid.actual_start.strftime('%x')
+                if bid.actual_start:
+                    bid_info['bid_date'] = bid.actual_start.strftime('%x')
             elif bid_info['bid_status'] == 'Job Accepted':
-                bid_info['bid_date'] = bid.tentative_start.strftime('%x')
+                if bid.tentative_start:
+                    bid_info['bid_date'] = bid.tentative_start.strftime('%x')
             elif bid_info['bid_status'] == 'Awaiting Customer Acceptance':
-                bid_info['bid_date'] = bid.scheduled_bid_date.strftime('%x')
+                if bid.scheduled_bid_date:
+                    bid_info['bid_date'] = bid.scheduled_bid_date.strftime('%x')
             else:
                 bid_info['bid_date'] = "Something didn't work right!!"
 

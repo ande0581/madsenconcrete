@@ -28,7 +28,7 @@
         </tr>
       </thead>
       {% for address in addresses %}
-        <tr>
+        <tr style="{{ loop.cycle('background: white;', 'background: #F0F0F0;') }}">
             <td>
                 <a href="https://www.google.com/maps/place/{{ address.street.replace(' ', '+') }}+{{ address.city }}+
                 {{ address.state }}+{{ address.zip }}" target="_blank">{{ address.street }}</a></td>
@@ -66,7 +66,7 @@
         </tr>
       </thead>
       {% for bid in bids %}
-      <tr>
+      <tr style="{{ loop.cycle('background: white;', 'background: #F0F0F0;') }}">
           <td>{{ bid.timestamp.strftime('%x') }}</td>
           <td>{{ bid.description }}</a></td>
           <td>{{ bid.status }}</td>
@@ -98,7 +98,7 @@
         </tr>
       </thead>
       {% for entry in journal %}
-      <tr>
+      <tr style="{{ loop.cycle('background: white;', 'background: #F0F0F0;') }}">
           <td>{{ entry.timestamp.strftime('%x %I:%M %p') }}</td>
           <td>{{ entry.body }}</td>
           <td>

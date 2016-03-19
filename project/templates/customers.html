@@ -29,7 +29,7 @@
         </tr>
       </thead>
       {% for customer in customers.items %}
-        <tr>
+        <tr style="{{ loop.cycle('background: white;', 'background: #F0F0F0;') }}">
           <td><a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}">{{ customer.name }}</a></td>
           <td>{{ customer.email }}</td>
           <td>{{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:]}}</td>

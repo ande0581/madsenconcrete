@@ -15,7 +15,7 @@
         </tr>
       </thead>
       {% for service in services %}
-      <tr>
+      <tr style="{{ loop.cycle('background: white;', 'background: #F0F0F0;') }}">
           <td width="200px">{{ service.description }}</td>
           <td width="50px">{{ "{0:0.2f}".format(service.cost) }}</td>
           <td width="50px"><a href="{{ url_for('service.service_edit', service_edit_id=service.id) }}">Edit</a></td>

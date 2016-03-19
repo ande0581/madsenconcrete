@@ -108,17 +108,23 @@ def view_bids():
             all_data_dict['bid_id'] = bid.id
 
             if all_data_dict['bid_status'] == 'Needs Bid':
-                all_data_dict['bid_date'] = bid.scheduled_bid_date.strftime('%x')
+                if bid.scheduled_bid_date:
+                    all_data_dict['bid_date'] = bid.scheduled_bid_date.strftime('%x')
             elif all_data_dict['bid_status'] == 'Job Started':
-                all_data_dict['bid_date'] = bid.actual_start.strftime('%x')
+                if bid.actual_start:
+                    all_data_dict['bid_date'] = bid.actual_start.strftime('%x')
             elif all_data_dict['bid_status'] == 'Job Accepted':
-                all_data_dict['bid_date'] = bid.tentative_start.strftime('%x')
+                if bid.tentative_start:
+                    all_data_dict['bid_date'] = bid.tentative_start.strftime('%x')
             elif all_data_dict['bid_status'] == 'Awaiting Customer Acceptance':
-                all_data_dict['bid_date'] = bid.scheduled_bid_date.strftime('%x')
+                if bid.scheduled_bid_date:
+                    all_data_dict['bid_date'] = bid.scheduled_bid_date.strftime('%x')
             elif all_data_dict['bid_status'] == 'Job Completed':
-                all_data_dict['bid_date'] = bid.completion_date.strftime('%x')
+                if bid.completion_date:
+                    all_data_dict['bid_date'] = bid.completion_date.strftime('%x')
             elif all_data_dict['bid_status'] == 'Job Declined':
-                all_data_dict['bid_date'] = bid.scheduled_bid_date.strftime('%x')
+                if bid.scheduled_bid_date:
+                    all_data_dict['bid_date'] = bid.scheduled_bid_date.strftime('%x')
             else:
                 all_data_dict['bid_date'] = "Something didn't work right!!"
 

@@ -18,7 +18,7 @@
 
     {% for bid in bids %}
         {% if bid['bid_status'] == 'Needs Bid': %}
-          <tr>
+          <tr style="{{ loop.cycle('background: white;', 'background: #F0F0F0;') }}">
               <td><a href="{{ url_for('customer.customer_details', customer_id=bid['customer_id']) }}">{{ bid['customer_name'] }}</a></td>
               <td><a href="{{ url_for('bid.bid_edit', bid_edit_id=bid['bid_id']) }}">{{ bid['bid_description'] }}</a></td>
               <td>{{ bid['bid_date'] }}</td>
@@ -49,7 +49,7 @@
 
     {% for bid in bids %}
         {% if bid['bid_status'] == 'Job Started': %}
-          <tr>
+          <tr style="{{ loop.cycle('background: white;', 'background: #F0F0F0;') }}">
               <td><a href="{{ url_for('customer.customer_details', customer_id=bid['customer_id']) }}">{{ bid['customer_name'] }}</a></td>
               <td><a href="{{ url_for('bid.bid_edit', bid_edit_id=bid['bid_id']) }}">{{ bid['bid_description'] }}</a></td>
               <td>{{ bid['bid_date'] }}</td>
@@ -81,7 +81,7 @@
 
     {% for bid in bids %}
         {% if bid['bid_status'] == 'Job Accepted': %}
-          <tr>
+          <tr style="{{ loop.cycle('background: white;', 'background: #F0F0F0;') }}">
               <td><a href="{{ url_for('customer.customer_details', customer_id=bid['customer_id']) }}">{{ bid['customer_name'] }}</a></td>
               <td><a href="{{ url_for('bid.bid_edit', bid_edit_id=bid['bid_id']) }}">{{ bid['bid_description'] }}</a></td>
               <td>{{ bid['bid_date'] }}</td>
@@ -113,7 +113,7 @@
 
     {% for bid in bids %}
         {% if bid['bid_status'] == 'Awaiting Customer Acceptance': %}
-          <tr>
+          <tr style="{{ loop.cycle('background: white;', 'background: #F0F0F0;') }}">
               <td><a href="{{ url_for('customer.customer_details', customer_id=bid['customer_id']) }}">{{ bid['customer_name'] }}</a></td>
               <td><a href="{{ url_for('bid.bid_edit', bid_edit_id=bid['bid_id']) }}">{{ bid['bid_description'] }}</a></td>
               <td>{{ bid['bid_date'] }}</td>
