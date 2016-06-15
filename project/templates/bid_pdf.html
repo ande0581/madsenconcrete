@@ -109,7 +109,7 @@
         </tr>
 
     <tr>
-        <td width="75px">
+        <td width="30px">
             Hereby to furnish material and labor complete in accordance with above specifications, for the sum of<br>
         </td>
         <td width="30px" style="text-align: right;">
@@ -125,12 +125,12 @@
         </tr>
 
         <tr>
-            <td width="75px">Deposit</td>
+            <td width="30px">Deposit</td>
             <td width="30px" style="text-align: right;">{{ "${0:0.2f}".format(bid.down_payment_amount) }}</td>
         </tr>
 
         <tr>
-            <td width="75px">Remaining Balance Due Upon Completion of the Contract</td>
+            <td width="30px">Remaining Balance Due Upon Completion of the Contract</td>
             {% if sum_of_items[0] %}
                 <td  width="30px" style="text-align: right;">{{ "${0:0.2f}".format(sum_of_items[0] - bid.down_payment_amount) }}</td>
             {% endif %}
@@ -149,7 +149,7 @@
         </tr>
 
         <tr>
-            <td width="75px">Signature:</td>
+            <td width="30px">Signature:</td>
             <td width="30px">Date:</td>
         </tr>
         <tr>
