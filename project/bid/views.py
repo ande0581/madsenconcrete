@@ -296,8 +296,8 @@ def bid_create_pdf(bid_id_pdf, save_to_disk):
         flash("The bid was saved to hard disk")
         return redirect(url_for('bid.bid_edit', bid_edit_id=bid.id))
 
-    return html
-    #return render_pdf(HTML(string=html))
+    #return html
+    return render_pdf(HTML(string=html))
 
 
 # Bid Create Receipt PDF
