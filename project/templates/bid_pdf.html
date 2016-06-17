@@ -104,8 +104,8 @@
     <table>
       <thead>
         <tr>
-          <th width="50px"><strong>We Propose</strong></th>
-          <th width="30px" style="text-align: right;"><strong></strong></th>
+          <th width="70px"><strong>We Propose</strong></th>
+          <th width="10px" style="text-align: right;"><strong></strong></th>
         </tr>
       </thead>
 
@@ -123,6 +123,60 @@
 
     </table>
 </div>
+
+
+<div class="entries">
+    <div class="datagrid">
+    <table>
+      <thead>
+        <tr>
+          <th width="70px"><strong>Payment Outline</strong></th>
+          <th width="10px" style="text-align: right;"><strong></strong></th>
+        </tr>
+      </thead>
+
+        <tr>
+            <td>Deposit</td>
+            <td style="text-align: right;">{{ "${0:0.2f}".format(bid.down_payment_amount) }}</td>
+        </tr>
+
+        <tr>
+            <td>Remaining Balance Due Upon Completion of the Contract</td>
+            {% if sum_of_items[0] %}
+            <td style="text-align: right;">{{ "${0:0.2f}".format(sum_of_items[0] - bid.down_payment_amount) }}</td>
+            {% endif %}
+        </tr>
+
+    </table>
+</div>
+
+
+
+<div class="entries">
+    <div class="datagrid">
+    <table>
+      <thead>
+        <tr>
+          <th width="100px"><strong>Acceptance of Proposal</strong></th>
+          <th width="10px" style="text-align: right;"><strong></strong></th>
+        </tr>
+      </thead>
+
+        <tr>
+            <td colspan="2">
+                The above prices, specifications and conditions are satisfactory and are hereby accepted.
+                You are authorized to do the work as specified. Payment will be made as outlined above.
+                I have received a copy of the Pre-Lien Notice.
+            </td>
+        </tr>
+
+    </table>
+</div>
+
+
+
+
+
 
 
 <br>
