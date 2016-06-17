@@ -98,6 +98,32 @@
 </div>
 {% endif %}
 
+<br>
+<div class="entries">
+    <div class="datagrid">
+    <table>
+      <thead>
+        <tr>
+          <th width="50px"><strong>We Propose</strong></th>
+          <th width="30px" style="text-align: right;"><strong></strong></th>
+        </tr>
+      </thead>
+
+        <tr>
+            <td>
+                Hereby to furnish material and labor complete in accordance with above specifications, for the sum of<br>
+            </td>
+            <td style="text-align: right;">
+                <br>
+                {% if sum_of_items[0] %}
+                    {{ "${0:0.2f}".format(sum_of_items[0]) }}
+                {% endif %}
+            </td>
+        </tr>
+
+    </table>
+</div>
+
 
 <br>
 <div class="entries">
