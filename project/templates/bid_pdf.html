@@ -109,10 +109,10 @@
         </tr>
 
     <tr>
-        <td width="30px">
+        <td>
             Hereby to furnish material and labor complete in accordance with above specifications, for the sum of<br>
         </td>
-        <td width="30px" style="text-align: right;">
+        <td style="text-align: right;">
             <br>
             {% if sum_of_items[0] %}
                 {{ "${0:0.2f}".format(sum_of_items[0]) }}
@@ -125,18 +125,18 @@
         </tr>
 
         <tr>
-            <td width="30px">Deposit</td>
-            <td width="30px" style="text-align: right;">{{ "${0:0.2f}".format(bid.down_payment_amount) }}</td>
+            <td>Deposit</td>
+            <td style="text-align: right;">{{ "${0:0.2f}".format(bid.down_payment_amount) }}</td>
         </tr>
 
         <tr>
-            <td width="30px">Remaining Balance Due Upon Completion of the Contract</td>
+            <td>Remaining Balance Due Upon Completion of the Contract</td>
             {% if sum_of_items[0] %}
-                <td  width="30px" style="text-align: right;">{{ "${0:0.2f}".format(sum_of_items[0] - bid.down_payment_amount) }}</td>
+                <td style="text-align: right;">{{ "${0:0.2f}".format(sum_of_items[0] - bid.down_payment_amount) }}</td>
             {% endif %}
         </tr>
 
-        <tr  stylecolor: #FFFFFF; background: #000000; font-size: 15px; font-weight: bold">
+        <tr  style="color: #FFFFFF; background: #000000; font-size: 15px; font-weight: bold">
             <th colspan="2"><strong>Acceptance of Proposal</strong></th>
         </tr>
 
@@ -149,8 +149,8 @@
         </tr>
 
         <tr>
-            <td width="30px">Signature:</td>
-            <td width="30px">Date:</td>
+            <td>Signature:</td>
+            <td>Date:</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
