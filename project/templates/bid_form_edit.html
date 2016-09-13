@@ -246,6 +246,8 @@ role="button">View Receipt</a>
     <button class="btn btn-sm btn-success" type="submit">Save</button>
     <a href="{{ url_for('bid.bid_create_pdf', bid_id_pdf=bid.id) }}" target="_blank" class="btn btn-sm btn-info"
        role="button">View PDF</a>
+        <a href="{{ url_for('bid.bid_create_pdf_invoice', bid_id_pdf=bid.id) }}" target="_blank" class="btn btn-sm btn-info"
+       role="button">View PDF Invoice</a>
     <a href="{{ url_for('bid.bid_create_pdf', bid_id_pdf=bid.id, save_to_disk=True) }}" class="btn btn-sm btn-warning"
        role="button">Save PDF</a>
     <a href="{{ url_for('customer.customer_details', customer_id=customer.id) }}" class="btn btn-sm btn-primary"

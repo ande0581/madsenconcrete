@@ -1,0 +1,141 @@
+<!-- HTML CSS values -->
+<!-- p class="red" translates to .red {} used for many -->
+<!-- p id="red" translates to #red {} used for just one -->
+<!-- https://github.com/Kozea/WeasyPrint/issues/76 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Madsen Concrete Services Invoice</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pdf.css') }}">
+</head>
+
+
+<body>
+{% block content %}
+<table id="header" style="width: 100%">
+    <tr>
+        <td style="vertical-align:top; width: 33.3333%">
+            <img id="logo" src="{{ url_for('static', filename='img/logo.gif') }}">
+        </td>
+
+        <td style="vertical-align:top; width: 33.3333%; text-align: center">
+            <h2 id="title"><em>Invoice</em></h2>
+            <div id="company_address">
+                179 Marvy St<br>
+                Lino Lakes, MN 55014<br>
+                612-508-2484<br>
+                concrete@madsenservices.com<br>
+                MN License: BC690748
+            </div>
+        </td>
+
+        <td style="vertical-align:top; width: 33.3333%; text-align: right; font-size: .8em;">
+            <strong>Submitted By</strong><br>
+            Thomas Madsen<br>
+            Date: {{ bid_time }}<br>
+            Invoice: {{ "{0:0>4}".format(bid.id) }}<br>
+        </td>
+
+    </tr>
+</table>
+<br>
+
+<table id="wrapper">
+    <td style="vertical-align:top; width: 50%; text-align: left; font-size: .8em;">
+            <h4 style="margin-bottom: 5px;">Bill To</h4>
+            ATTN: Bob Myer<br>
+            Highland Student Housing Holdings, LLC<br>
+            Its subsidiaries, managed ownership entities, and BVP Stadium View, LLC<br>
+            2970 Clairmont Rd, Suite 310<br>
+            Atlanta, GA 30329<br>
+            {{ "(" + customer.telephone[:3] + ") " + customer.telephone[3:6] + "-" + customer.telephone[6:] }}<br>
+            {{ customer.email }}
+    </td>
+
+    <td style="vertical-align:top; width: 50%; text-align: left; font-size: .8em">
+        <h4 style="margin-bottom: 5px;">Project Address</h4>
+        Stadium View Apartments<br>
+        2508 Delaware ST SE<br>
+        Minneapolis, MN 55414<br>
+        <p></p>
+    </td>
+</table>
+
+<br>
+<div class="entries">
+    <div class="datagrid">
+    <table>
+      <thead>
+        <tr>
+          <th width="50px"><strong>Billed Line Items</strong></th>
+          <th width="30px" style="text-align: right;"><strong>Total</strong></th>
+        </tr>
+      </thead>
+
+  {% if sum_of_items[0] is not none: %}
+        {% for item in items %}
+            <tr>
+              <td width="75px">{{ item.description | scrub_description }}</td>
+              <td width="30px" style="text-align: right;">{{ "{0:0.2f}".format(item.total) }}</td>
+            </tr>
+        {% endfor %}
+  {% endif %}
+
+    </table>
+    </div>
+</div>
+
+<br>
+{% if bid.notes %}
+<div class="entries">
+    <div class="datagrid">
+    <table>
+      <thead>
+        <tr>
+            <th width="50px"><strong>Job Overview</strong></th>
+        </tr>
+      </thead>
+        <tr>
+            <td>
+            {{ bid.description }}
+            </td>
+        </tr>
+    </table>
+    </div>
+</div>
+{% endif %}
+
+
+
+
+<div class="entries">
+    <div class="datagrid">
+    <table>
+      <thead>
+        <tr>
+            <th colspan="2"><strong>Payment Outline</strong></th>
+        </tr>
+      </thead>
+
+        <tr>
+            <td>Deposit Due Before Contracted Start Date</td>
+            <td style="text-align: right;">{{ "${0:0.2f}".format(bid.down_payment_amount) }}</td>
+        </tr>
+
+        <tr>
+            <td>Remaining Balance Due Within 30 Days of Contracted Work Completion</td>
+            {% if sum_of_items[0] %}
+            <td style="text-align: right;">{{ "${0:0.2f}".format(sum_of_items[0] - bid.down_payment_amount) }}</td>
+            {% endif %}
+        </tr>
+
+    </table>
+    </div>
+</div>
+
+
+{% endblock %}
+</body>
+</html>

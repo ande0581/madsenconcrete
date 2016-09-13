@@ -318,3 +318,23 @@ def bid_create_receipt(bid_id_pdf):
     return render_pdf(HTML(string=html))
 
 
+
+# Bid Create PDF Invoice
+@bid_blueprint.route('/bid_create_pdf_invoice/<int:bid_id_pdf>/', methods=['GET', 'POST'])
+@login_required
+def bid_create_pdf_invoice(bid_id_pdf):
+    bid = Bid.query.get(bid_id_pdf)
+    address = Address.query.get(bid.address_id)
+    customer = Customer.query.get(address.customer_id)
+    html = render_template('bid_pdf_invoice.html',
+                           bid_id=bid_id_pdf,
+                           sum_of_items=sum_all_items_one_bid(bid_id_pdf),
+                           items=query_one_bid_items(bid_id_pdf),
+                           bid=query_bid(bid_id_pdf),
+                           bid_time=datetime.datetime.now(pytz.timezone('US/Central')).strftime('%x'),
+                           address=address,
+                           customer=customer)
+    #return html
+    return render_pdf(HTML(string=html))
+
+
